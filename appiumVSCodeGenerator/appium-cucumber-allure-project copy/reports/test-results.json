@@ -1,0 +1,135 @@
+{
+  "executionInfo": {
+    "startTime": "2025-07-20T20:28:54.080Z",
+    "endTime": "2025-07-20T20:29:37.837Z",
+    "totalDuration": 43757,
+    "platform": "Android",
+    "device": "Pixel 9a"
+  },
+  "summary": {
+    "totalScenarios": 1,
+    "passedScenarios": 0,
+    "failedScenarios": 1,
+    "skippedScenarios": 0,
+    "totalSteps": 9,
+    "passedSteps": 8,
+    "failedSteps": 1,
+    "skippedSteps": 0,
+    "successRate": 0
+  },
+  "scenarios": [
+    {
+      "name": "Set and validate the geo location",
+      "status": "FAILED",
+      "startTime": "2025-07-20T20:28:54.082Z",
+      "endTime": "2025-07-20T20:29:34.081Z",
+      "duration": 39999,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "text": "the app is launched",
+          "status": "PASSED",
+          "timestamp": "2025-07-20T20:28:58.779Z",
+          "error": null,
+          "artifacts": {
+            "screenshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/AFTER_PASSED_the_app_is_launched_1753043338525.png",
+            "xmlSnapshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/pagesource_AFTER_PASSED_the_app_is_launched_1753043338525.xml"
+          }
+        },
+        {
+          "stepNumber": 2,
+          "text": "I tap on the menu button",
+          "status": "PASSED",
+          "timestamp": "2025-07-20T20:28:59.198Z",
+          "error": null,
+          "artifacts": {
+            "screenshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/AFTER_PASSED_I_tap_on_the_menu_button_1753043338999.png",
+            "xmlSnapshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/pagesource_AFTER_PASSED_I_tap_on_the_menu_button_1753043338999.xml"
+          }
+        },
+        {
+          "stepNumber": 3,
+          "text": "I tap on the login menu item",
+          "status": "PASSED",
+          "timestamp": "2025-07-20T20:28:59.729Z",
+          "error": null,
+          "artifacts": {
+            "screenshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/AFTER_PASSED_I_tap_on_the_login_menu_item_1753043339419.png",
+            "xmlSnapshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/pagesource_AFTER_PASSED_I_tap_on_the_login_menu_item_1753043339419.xml"
+          }
+        },
+        {
+          "stepNumber": 4,
+          "text": "I enter \"standard_user\" in the username field",
+          "status": "PASSED",
+          "timestamp": "2025-07-20T20:29:01.612Z",
+          "error": null,
+          "artifacts": {
+            "screenshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/AFTER_PASSED_I_enter__standard_user__in_the_1753043341070.png",
+            "xmlSnapshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/pagesource_AFTER_PASSED_I_enter__standard_user__in_the_1753043341070.xml"
+          }
+        },
+        {
+          "stepNumber": 5,
+          "text": "I enter \"secret_sauce\" in the password field",
+          "status": "PASSED",
+          "timestamp": "2025-07-20T20:29:03.434Z",
+          "error": null,
+          "artifacts": {
+            "screenshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/AFTER_PASSED_I_enter__secret_sauce__in_the__1753043342880.png",
+            "xmlSnapshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/pagesource_AFTER_PASSED_I_enter__secret_sauce__in_the__1753043342880.xml"
+          }
+        },
+        {
+          "stepNumber": 6,
+          "text": "I tap the login button",
+          "status": "PASSED",
+          "timestamp": "2025-07-20T20:29:07.621Z",
+          "error": null,
+          "artifacts": {
+            "screenshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/AFTER_PASSED_I_tap_the_login_button_1753043347147.png",
+            "xmlSnapshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/pagesource_AFTER_PASSED_I_tap_the_login_button_1753043347147.xml"
+          }
+        },
+        {
+          "stepNumber": 7,
+          "text": "I should see the products screen",
+          "status": "PASSED",
+          "timestamp": "2025-07-20T20:29:20.550Z",
+          "error": null,
+          "artifacts": {
+            "screenshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/AFTER_PASSED_I_should_see_the_products_scre_1753043358534.png",
+            "xmlSnapshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/pagesource_AFTER_PASSED_I_should_see_the_products_scre_1753043358534.xml"
+          }
+        },
+        {
+          "stepNumber": 8,
+          "text": "I tap on the menu button",
+          "status": "PASSED",
+          "timestamp": "2025-07-20T20:29:24.564Z",
+          "error": null,
+          "artifacts": {
+            "screenshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/AFTER_PASSED_I_tap_on_the_menu_button_1753043362531.png",
+            "xmlSnapshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/pagesource_AFTER_PASSED_I_tap_on_the_menu_button_1753043362531.xml"
+          }
+        },
+        {
+          "stepNumber": 9,
+          "text": "I tap on the geo location menu item",
+          "status": "FAILED",
+          "timestamp": "2025-07-20T20:29:34.079Z",
+          "error": {
+            "message": "Failed to tap geo location menu item: Can't call click on element with selector \"~geoLocationMenuItem\" because element wasn't found",
+            "type": "Error",
+            "stack": "GeoLocationMenuError: Failed to tap geo location menu item: Can't call click on element with selector \"~geoLocationMenuItem\" because element wasn't found\n    at CustomWorld.<anonymous> (/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/src/steps/step_definitions/geoLocationSteps.js:178:27)"
+          },
+          "artifacts": {
+            "screenshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/AFTER_FAILED_I_tap_on_the_geo_location_menu_1753043371534.png",
+            "xmlSnapshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/pagesource_AFTER_FAILED_I_tap_on_the_geo_location_menu_1753043371534.xml"
+          }
+        }
+      ],
+      "errorSummary": null
+    }
+  ]
+}

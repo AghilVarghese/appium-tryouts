@@ -1,0 +1,144 @@
+{
+  "name": "test-failure-analyzer",
+  "displayName": "Test Failure Analyzer",
+  "description": "Analyzes test failures in JSON reports and suggests fixes using OpenAI integration",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.102.0"
+  },
+  "categories": [
+    "Testing"
+  ],
+  "activationEvents": [
+    "workspaceContains:**/test-results.json"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "test-failure-analyzer.analyzeFailures",
+        "title": "Analyze Test Failures",
+        "category": "Test Failure Analyzer"
+      },
+      {
+        "command": "test-failure-analyzer.refreshFailures",
+        "title": "Refresh",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "test-failure-analyzer.viewFailureDetails",
+        "title": "View Details",
+        "icon": "$(eye)"
+      },
+      {
+        "command": "test-failure-analyzer.getSuggestion",
+        "title": "Get AI Suggestion",
+        "icon": "$(lightbulb)"
+      },
+      {
+        "command": "test-failure-analyzer.applySuggestion",
+        "title": "Apply Suggestion",
+        "icon": "$(check)"
+      },
+      {
+        "command": "test-failure-analyzer.rejectSuggestion",
+        "title": "Reject Suggestion",
+        "icon": "$(close)"
+      },
+      {
+        "command": "test-failure-analyzer.openScreenshot",
+        "title": "Open Screenshot"
+      },
+      {
+        "command": "test-failure-analyzer.openXmlSnapshot",
+        "title": "Open XML Snapshot"
+      }
+    ],
+    "views": {
+      "explorer": [
+        {
+          "id": "testFailureAnalyzer",
+          "name": "Test Failures",
+          "when": "testFailureAnalyzer.hasFailures",
+          "icon": "$(error)"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "test-failure-analyzer.refreshFailures",
+          "when": "view == testFailureAnalyzer",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "test-failure-analyzer.viewFailureDetails",
+          "when": "view == testFailureAnalyzer && viewItem == failedStep",
+          "group": "inline"
+        },
+        {
+          "command": "test-failure-analyzer.getSuggestion",
+          "when": "view == testFailureAnalyzer && viewItem == failedStep",
+          "group": "inline"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Test Failure Analyzer",
+      "properties": {
+        "testFailureAnalyzer.openaiApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "OpenAI API Key for generating fix suggestions",
+          "scope": "machine-overridable"
+        },
+        "testFailureAnalyzer.openaiModel": {
+          "type": "string",
+          "default": "gpt-4",
+          "description": "OpenAI model to use for suggestions",
+          "enum": ["gpt-3.5-turbo", "gpt-4", "gpt-4-turbo"],
+          "scope": "resource"
+        },
+        "testFailureAnalyzer.testResultsPath": {
+          "type": "string",
+          "default": "reports/test-results.json",
+          "description": "Path to test results JSON file relative to workspace root",
+          "scope": "resource"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "npm run check-types && npm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "npm run check-types && npm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "dependencies": {
+    "openai": "^4.52.7",
+    "axios": "^1.6.7"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.102.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.31.1",
+    "@typescript-eslint/parser": "^8.31.1",
+    "eslint": "^9.25.1",
+    "esbuild": "^0.25.3",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.8.3",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2"
+  }
+}
