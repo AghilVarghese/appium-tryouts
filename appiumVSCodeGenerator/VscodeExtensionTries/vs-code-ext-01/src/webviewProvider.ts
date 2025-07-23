@@ -268,21 +268,16 @@ export class FailureDetailsWebviewProvider {
                                 <p>${suggestion.reasoning.replace(/\\n/g, '<br>')}</p>
                             ` : ''}
                             ${suggestion.codeChanges && suggestion.codeChanges.length > 0 ? `
-                                <h4>Suggested Code Changes & Selectors</h4>
+                                <h4>Working Selectors from XML Analysis</h4>
                                 ${suggestion.codeChanges.map(change => `
-                                    <div style="margin: 15px 0; border: 1px solid var(--vscode-panel-border); border-radius: 4px; padding: 10px;">
-                                        <p><strong>${change.description}</strong></p>
-                                        ${change.filePath.includes('selector') ? `
-                                            <div style="background-color: var(--vscode-inputValidation-infoBackground); padding: 8px; border-radius: 4px; margin: 5px 0;">
-                                                <strong>💡 Recommended Selector Fix:</strong>
-                                            </div>
-                                        ` : ''}
-                                        <pre class="code">${change.suggestedCode}</pre>
-                                        ${change.filePath.includes('elements') ? `
-                                            <div style="background-color: var(--vscode-textBlockQuote-background); padding: 8px; border-radius: 4px; margin: 5px 0;">
-                                                <strong>📋 Elements Analysis:</strong> These are the available elements found in the XML page source
-                                            </div>
-                                        ` : ''}
+                                    <div style="margin: 15px 0; border: 1px solid var(--vscode-charts-green); border-radius: 4px; padding: 15px; background-color: var(--vscode-inputValidation-infoBackground);">
+                                        <div style="margin-bottom: 10px;">
+                                            <strong style="color: var(--vscode-charts-green);">✅ ${change.description}</strong>
+                                        </div>
+                                        <pre class="code" style="background-color: var(--vscode-editor-background); border: 1px solid var(--vscode-charts-green);">${change.suggestedCode}</pre>
+                                        <div style="margin-top: 8px; font-size: 12px; color: var(--vscode-descriptionForeground);">
+                                            Found in XML page source - Ready to use
+                                        </div>
                                     </div>
                                 `).join('')}
                             ` : ''}
