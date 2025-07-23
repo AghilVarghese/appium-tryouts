@@ -38,7 +38,7 @@ When('I tap on the login menu item', async function () {
 When('I enter {string} in the username field', async function (username) {
   this.setCurrentStep(`I enter "${username}" in the username field`);
   try {
-    const usernameField = await this.driver.$('~test-Username-field');
+    const usernameField = await this.driver.$('~sdfdsfsdf');
     await usernameField.setValue(username);
   } catch (error) {
     const enhancedError = new Error(`Failed to enter username "${username}": ${error.message}`);

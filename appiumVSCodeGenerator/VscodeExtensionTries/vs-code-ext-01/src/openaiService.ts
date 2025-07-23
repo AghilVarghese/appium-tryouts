@@ -123,12 +123,14 @@ Please analyze the XML page source above and provide ONLY:
 1. **Root Cause:** Why the selector "${failedSelector}" failed
 2. **Working Selectors:** Extract the exact working selectors from the XML that match username/input fields
 3. **Code Fix:** Complete working code with the correct selector found in XML
+4. **Confidence Level:** Your confidence in this solution (1-10 scale)
 
 **IMPORTANT:** 
 - Only provide selectors that actually exist in the XML page source
 - Focus on finding input fields for username/text entry
 - Provide exact attribute values from the XML
 - No generic suggestions - only what's actually found in the page source
+- Include your confidence level based on how certain you are about the working selectors found
 
 **Required selector formats from XML:**
 - ~accessibility-id (if accessibility-id attribute exists)
@@ -136,7 +138,7 @@ Please analyze the XML page source above and provide ONLY:
 - XPath based on actual XML structure
 - Class name if that's the only option
 
-Extract EXACT values from the XML provided above.
+Extract EXACT values from the XML provided above and rate your confidence in the solution.
 `;
 
         return prompt;
@@ -146,12 +148,26 @@ Extract EXACT values from the XML provided above.
         // Focused parsing for selector-specific suggestions only
         let suggestion = '';
         let reasoning = '';
-        let confidence = 8; // Higher confidence since we're analyzing actual XML
+        let confidence = 5; // Default fallback confidence
 
-        // Extract confidence if mentioned
-        const confidenceMatch = response.match(/confidence.*?(\d+)/i);
-        if (confidenceMatch) {
-            confidence = parseInt(confidenceMatch[1]) || 8;
+        // Extract confidence from OpenAI response with multiple patterns
+        const confidencePatterns = [
+            /confidence.*?level.*?(\d+)/i,
+            /confidence.*?(\d+)/i,
+            /(\d+).*?confidence/i,
+            /confidence.*?(\d+).*?10/i,
+            /rate.*?confidence.*?(\d+)/i
+        ];
+
+        for (const pattern of confidencePatterns) {
+            const confidenceMatch = response.match(pattern);
+            if (confidenceMatch) {
+                const extractedConfidence = parseInt(confidenceMatch[1]);
+                if (extractedConfidence >= 1 && extractedConfidence <= 10) {
+                    confidence = extractedConfidence;
+                    break;
+                }
+            }
         }
 
         // Extract main suggestion
@@ -201,7 +217,7 @@ Extract EXACT values from the XML provided above.
             scenarioName,
             suggestion: suggestion || 'XML analysis completed - check working selectors below',
             reasoning: reasoning || 'Analyzed XML page source to find working selectors',
-            confidence: Math.min(Math.max(confidence, 1), 10),
+            confidence: Math.min(Math.max(confidence, 1), 10), // Ensure confidence is between 1-10
             codeChanges: codeChanges.length > 0 ? codeChanges : undefined
         };
     }

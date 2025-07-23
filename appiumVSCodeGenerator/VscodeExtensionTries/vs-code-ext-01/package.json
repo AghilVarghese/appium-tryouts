@@ -59,7 +59,6 @@
         {
           "id": "testFailureAnalyzer",
           "name": "Test Failures",
-          "when": "testFailureAnalyzer.hasFailures",
           "icon": "$(error)"
         }
       ]
@@ -76,12 +75,22 @@
         {
           "command": "test-failure-analyzer.viewFailureDetails",
           "when": "view == testFailureAnalyzer && viewItem == failedStep",
-          "group": "inline"
+          "group": "inline@1"
         },
         {
           "command": "test-failure-analyzer.getSuggestion",
           "when": "view == testFailureAnalyzer && viewItem == failedStep",
-          "group": "inline"
+          "group": "inline@2"
+        },
+        {
+          "command": "test-failure-analyzer.viewFailureDetails",
+          "when": "view == testFailureAnalyzer && viewItem == failedStep",
+          "group": "context@1"
+        },
+        {
+          "command": "test-failure-analyzer.getSuggestion",
+          "when": "view == testFailureAnalyzer && viewItem == failedStep",
+          "group": "context@2"
         }
       ]
     },

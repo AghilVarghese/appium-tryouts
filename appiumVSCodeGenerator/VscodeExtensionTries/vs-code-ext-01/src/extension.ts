@@ -40,11 +40,13 @@ export function activate(context: vscode.ExtensionContext) {
 
     // Load test results on activation
     const loadTestResults = async () => {
+        console.log('Loading test results...');
         const testResults = await parser.parseTestResults();
         treeDataProvider.updateTestResults(testResults);
         updateContext(testResults);
         
         if (testResults && testResults.summary.failedScenarios > 0) {
+            console.log(`Found ${testResults.summary.failedScenarios} failed scenarios`);
             vscode.window.showInformationMessage(
                 `Found ${testResults.summary.failedScenarios} failed scenarios with ${testResults.summary.failedSteps} failed steps.`,
                 'Analyze Failures'
@@ -53,6 +55,8 @@ export function activate(context: vscode.ExtensionContext) {
                     vscode.commands.executeCommand('test-failure-analyzer.analyzeFailures');
                 }
             });
+        } else {
+            console.log('No test results found or no failures');
         }
     };
 
