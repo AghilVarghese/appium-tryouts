@@ -48,7 +48,7 @@ export class OpenAIService {
 
         try {
             const config = vscode.workspace.getConfiguration('testFailureAnalyzer');
-            const model = config.get<string>('openaiModel', 'gpt-4');
+            const model = config.get<string>('openaiModel', 'gpt-4o');
 
             const prompt = this.buildPrompt(scenario, failedStep, xmlSnapshot);
 
@@ -81,6 +81,68 @@ export class OpenAIService {
         }
     }
 
+    private filterRelevantXml(xmlContent: string, failedSelector: string): string {
+        // Extract the target type from failed selector
+        const isUsernameField = /username|user|login|email/i.test(failedSelector);
+        
+        // Split XML into lines for processing
+        const lines = xmlContent.split('\n');
+        const relevantLines: string[] = [];
+        let inRelevantNode = false;
+        let nodeDepth = 0;
+        
+        for (const line of lines) {
+            const trimmedLine = line.trim();
+            
+            // Check if this line contains relevant elements
+            const isRelevant = 
+                trimmedLine.includes('EditText') ||
+                trimmedLine.includes('TextField') ||
+                trimmedLine.includes('input') ||
+                (isUsernameField && (
+                    /username|user|login|email|name/i.test(trimmedLine) ||
+                    /resource-id.*username|user|login|email/i.test(trimmedLine) ||
+                    /content-desc.*username|user|login|email/i.test(trimmedLine)
+                )) ||
+                trimmedLine.includes('clickable="true"') ||
+                trimmedLine.includes('focusable="true"') ||
+                trimmedLine.includes('text=') && trimmedLine.includes('input');
+            
+            // Track node depth for context
+            if (trimmedLine.includes('<') && !trimmedLine.includes('</')) {
+                if (isRelevant) {
+                    inRelevantNode = true;
+                    nodeDepth = 0;
+                }
+                if (inRelevantNode) {
+                    nodeDepth++;
+                }
+            }
+            
+            if (trimmedLine.includes('</')) {
+                if (inRelevantNode) {
+                    nodeDepth--;
+                    if (nodeDepth <= 0) {
+                        inRelevantNode = false;
+                    }
+                }
+            }
+            
+            // Include relevant lines and their context
+            if (isRelevant || inRelevantNode) {
+                relevantLines.push(line);
+            }
+        }
+        
+        // If we found relevant content, return it, otherwise return truncated original
+        if (relevantLines.length > 0 && relevantLines.length < lines.length * 0.8) {
+            return relevantLines.join('\n');
+        }
+        
+        // Fallback to first part of XML
+        return xmlContent.substring(0, 10000) + '\n... [Showing first part of XML]';
+    }
+
     private buildPrompt(scenario: Scenario, failedStep: Step, xmlSnapshot?: string): string {
         const errorDetails = failedStep.error;
         const stepText = failedStep.text;
@@ -109,7 +171,16 @@ ${errorDetails?.stack || 'No stack trace available'}
 `;
 
         if (xmlSnapshot) {
-            prompt += `\n**Page Source (XML) - Analyze this to find the correct selector:**\n${xmlSnapshot}`;
+            // Filter and truncate XML to prevent token limit issues
+            const config = vscode.workspace.getConfiguration('testFailureAnalyzer');
+            const maxXmlLength = config.get<number>('maxXmlLength', 12000);
+            
+            const filteredXml = this.filterRelevantXml(xmlSnapshot, failedSelector);
+            const truncatedXml = filteredXml.length > maxXmlLength 
+                ? filteredXml.substring(0, maxXmlLength) + '\n... [XML truncated for token limit]'
+                : filteredXml;
+            
+            prompt += `\n**Page Source (XML) - Filtered for relevant elements:**\n${truncatedXml}`;
         }
 
         prompt += `
