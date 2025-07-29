@@ -97,17 +97,35 @@
     "configuration": {
       "title": "Test Failure Analyzer",
       "properties": {
+        "testFailureAnalyzer.useOllama": {
+          "type": "boolean",
+          "default": false,
+          "description": "Use Ollama instead of OpenAI for AI suggestions",
+          "scope": "resource"
+        },
+        "testFailureAnalyzer.ollamaBaseUrl": {
+          "type": "string",
+          "default": "http://localhost:11434",
+          "description": "Ollama server base URL",
+          "scope": "resource"
+        },
+        "testFailureAnalyzer.ollamaModel": {
+          "type": "string",
+          "default": "llama3",
+          "description": "Ollama model to use for suggestions",
+          "scope": "resource"
+        },
         "testFailureAnalyzer.openaiApiKey": {
           "type": "string",
           "default": "",
-          "description": "OpenAI API Key for generating fix suggestions",
+          "description": "OpenAI API Key for generating fix suggestions (used when useOllama is false)",
           "scope": "machine-overridable"
         },
         "testFailureAnalyzer.openaiModel": {
           "type": "string",
           "default": "gpt-4o",
-          "description": "OpenAI model to use for suggestions",
-          "enum": ["gpt-3.5-turbo", "gpt-4", "gpt-4-turbo"],
+          "description": "OpenAI model to use for suggestions (used when useOllama is false)",
+          "enum": ["gpt-3.5-turbo", "gpt-4", "gpt-4-turbo", "gpt-4o"],
           "scope": "resource"
         },
         "testFailureAnalyzer.testResultsPath": {

@@ -1,12 +1,52 @@
 import * as vscode from 'vscode';
 import OpenAI from 'openai';
+import axios from 'axios';
 import { Step, Scenario, FixSuggestion, CodeChange } from './types';
 
 export class OpenAIService {
     private openai: OpenAI | null = null;
+    private useOllama: boolean = false;
+    private ollamaBaseUrl: string = 'http://localhost:11434';
+    private ollamaModel: string = 'llama3';
 
     constructor() {
-        this.initializeOpenAI();
+        this.initializeServices();
+    }
+
+    private initializeServices(): void {
+        const config = vscode.workspace.getConfiguration('testFailureAnalyzer');
+        this.useOllama = config.get<boolean>('useOllama', false);
+        this.ollamaBaseUrl = config.get<string>('ollamaBaseUrl', 'http://localhost:11434');
+        this.ollamaModel = config.get<string>('ollamaModel', 'llama3');
+
+        if (true) {
+            this.checkOllamaConnection();
+        } else {
+            console.log('🤖 Initializing OpenAI service');
+            this.initializeOpenAI();
+        }
+    }
+
+    private async checkOllamaConnection(): Promise<void> {
+        try {
+            const response = await axios.get(`${this.ollamaBaseUrl}/api/tags`);
+            const models = response.data.models || [];
+            
+            if (!models.some((m: any) => m.name.includes(this.ollamaModel))) {
+                vscode.window.showWarningMessage(
+                    `Model ${this.ollamaModel} not found in Ollama. Available models: ${models.map((m: any) => m.name).join(', ')}`,
+                    'Check Models'
+                );
+            } else {
+                console.log(`✅ Ollama connected successfully with model: ${this.ollamaModel}`);
+                vscode.window.showInformationMessage(`🦙 Ollama ready with ${this.ollamaModel}`, { modal: false });
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(
+                `Failed to connect to Ollama at ${this.ollamaBaseUrl}. Make sure Ollama is running.`,
+                'Check Connection'
+            );
+        }
     }
 
     private initializeOpenAI(): void {
@@ -29,12 +69,35 @@ export class OpenAIService {
             this.openai = new OpenAI({
                 apiKey: apiKey
             });
+            console.log('✅ OpenAI service initialized successfully');
+            vscode.window.showInformationMessage('🤖 OpenAI service ready', { modal: false });
         } catch (error) {
             vscode.window.showErrorMessage(`Error initializing OpenAI: ${error}`);
         }
     }
 
     public async generateFixSuggestion(
+        scenario: Scenario,
+        failedStep: Step,
+        xmlSnapshot?: string
+    ): Promise<FixSuggestion | null> {
+        // Show which AI service is being used
+        if (this.useOllama) {
+            vscode.window.showInformationMessage(`🦙 Using Ollama (${this.ollamaModel}) for AI analysis...`, { modal: false });
+        } else {
+            const config = vscode.workspace.getConfiguration('testFailureAnalyzer');
+            const model = config.get<string>('openaiModel', 'gpt-4o');
+            vscode.window.showInformationMessage(`🤖 Using OpenAI (${model}) for AI analysis...`, { modal: false });
+        }
+
+        if (this.useOllama) {
+            return this.generateFixSuggestionWithOllama(scenario, failedStep, xmlSnapshot);
+        } else {
+            return this.generateFixSuggestionWithOpenAI(scenario, failedStep, xmlSnapshot);
+        }
+    }
+
+    private async generateFixSuggestionWithOpenAI(
         scenario: Scenario,
         failedStep: Step,
         xmlSnapshot?: string
@@ -76,7 +139,44 @@ export class OpenAIService {
             return this.parseAIResponse(response, scenario.name, `${scenario.name}_step_${failedStep.stepNumber}`);
 
         } catch (error) {
-            vscode.window.showErrorMessage(`Error generating fix suggestion: ${error}`);
+            vscode.window.showErrorMessage(`Error generating fix suggestion with OpenAI: ${error}`);
+            return null;
+        }
+    }
+
+    private async generateFixSuggestionWithOllama(
+        scenario: Scenario,
+        failedStep: Step,
+        xmlSnapshot?: string
+    ): Promise<FixSuggestion | null> {
+        try {
+            const prompt = this.buildPrompt(scenario, failedStep, xmlSnapshot);
+
+            const response = await axios.post(`${this.ollamaBaseUrl}/api/generate`, {
+                model: this.ollamaModel,
+                prompt: `You are an expert test automation engineer specializing in mobile app testing with Appium. Analyze test failures and provide specific, actionable fix suggestions.\n\n${prompt}`,
+                stream: false,
+                options: {
+                    temperature: 0.1,
+                    top_p: 0.9,
+                    num_predict: 2000
+                }
+            });
+
+            const aiResponse = response.data.response;
+            if (!aiResponse) {
+                throw new Error('No response from Ollama');
+            }
+
+            const result = this.parseAIResponse(aiResponse, scenario.name, `${scenario.name}_step_${failedStep.stepNumber}`);
+            
+            // Show completion message
+            vscode.window.showInformationMessage(`✅ Ollama analysis complete (Confidence: ${result.confidence}/10)`, { modal: false });
+            
+            return result;
+
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error generating fix suggestion with Ollama: ${error}`);
             return null;
         }
     }
@@ -295,6 +395,6 @@ Extract EXACT values from the XML provided above and rate your confidence in the
 
     public refreshApiKey(): void {
         this.openai = null;
-        this.initializeOpenAI();
+        this.initializeServices();
     }
 }
