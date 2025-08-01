@@ -2,7 +2,7 @@
   "name": "test-failure-analyzer",
   "displayName": "Test Failure Analyzer",
   "description": "Analyzes test failures in JSON reports and suggests fixes using OpenAI integration",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "engines": {
     "vscode": "^1.102.0"
   },
