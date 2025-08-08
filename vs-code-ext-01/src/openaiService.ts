@@ -120,7 +120,7 @@ export class OpenAIService {
                 messages: [
                     {
                         role: 'system',
-                        content: 'You are an expert test automation engineer specializing in mobile app testing with Appium and JavaScript/Node.js. Analyze test failures and provide specific, actionable fix suggestions. Always provide code solutions in JavaScript format for Node.js projects.'
+                        content: 'You are an expert test automation engineer specializing in mobile app testing with WebDriverIO v8+ and Appium. Analyze test failures from Cucumber/BDD scenarios and provide specific, actionable fix suggestions. Always provide code solutions in JavaScript format using WebDriverIO v8+ syntax with modern async/await patterns. Focus on mobile app testing patterns for iOS and Android platforms.'
                     },
                     {
                         role: 'user',
@@ -235,11 +235,12 @@ export class OpenAIService {
     private categorizeError(errorMessage: string): string {
         const message = errorMessage.toLowerCase();
         
-        if (message.includes('no such element') || message.includes('element not found') || message.includes('could not find')) {
+        if (message.includes('no such element') || message.includes('element not found') || message.includes('could not find') ||
+            message.includes('still not displayed') || message.includes('not visible') || message.includes('waituntil')) {
             return 'element_not_found';
         } else if (message.includes('not clickable') || message.includes('click intercepted') || message.includes('not interactable')) {
             return 'not_clickable';
-        } else if (message.includes('timeout') || message.includes('timed out')) {
+        } else if (message.includes('timeout') || message.includes('timed out') || message.includes('waituntil')) {
             return 'timeout';
         } else if (message.includes('stale') || message.includes('no longer attached')) {
             return 'stale_element';
@@ -249,6 +250,8 @@ export class OpenAIService {
             return 'invalid_selector';
         } else if (message.includes('network') || message.includes('connection')) {
             return 'network_error';
+        } else if (message.includes('sendKeys') || message.includes('setValue') || message.includes('input') || message.includes('text field')) {
+            return 'text_input_issue';
         } else if (message.includes('assertion') || message.includes('expected') || message.includes('actual')) {
             return 'assertion_failure';
         } else {
@@ -297,6 +300,14 @@ export class OpenAIService {
                 // For stale elements, include the entire hierarchy for re-finding
                 return true; // Include more context for stale element errors
             
+            case 'text_input_issue':
+                // For text input issues, focus on input elements
+                return trimmedLine.includes('EditText') ||
+                       trimmedLine.includes('TextField') ||
+                       trimmedLine.includes('input') ||
+                       trimmedLine.includes('text=') ||
+                       trimmedLine.includes('hint=');
+            
             default:
                 return baseRelevant;
         }
@@ -323,18 +334,37 @@ export class OpenAIService {
         const errorDetails = failedStep.error;
         const stepText = failedStep.text;
         
-        // Extract the failed selector from error message
-        const selectorMatch = errorDetails?.message?.match(/selector\s+"([^"]+)"/);
-        const failedSelector = selectorMatch ? selectorMatch[1] : 'unknown';
+        // Enhanced selector extraction for WebDriverIO/Cucumber format
+        let failedSelector = 'unknown';
+        if (errorDetails?.message) {
+            // Try multiple patterns for selector extraction
+            const patterns = [
+                /element \("([^"]+)"\)/,  // WebDriverIO format: element ("//XCUIElementTypeButton[@name='reserve_button']")
+                /selector\s+"([^"]+)"/,   // Standard format: selector "..."
+                /@name='([^']+)'/,       // iOS accessibility name: @name='reserve_button'
+                /id\s*=\s*"([^"]+)"/,    // ID selector: id="button_id"
+                /\/\/[^"]+/              // XPath patterns
+            ];
+            
+            for (const pattern of patterns) {
+                const match = errorDetails.message.match(pattern);
+                if (match) {
+                    failedSelector = match[1] || match[0];
+                    break;
+                }
+            }
+        }
         
         let prompt = `
-## Test Scenario Analysis
+## Test Scenario Analysis - WebDriverIO/Appium
 
 **Scenario:** ${scenario.name}
 **Failed Step:** ${stepText}
 **Error Message:** ${errorDetails?.message || 'No error message available'}
 **Error Type:** ${errorDetails?.type || 'Unknown'}
 **Failed Selector:** ${failedSelector}
+**Platform:** Mobile App Testing (iOS/Android)
+**Test Framework:** WebDriverIO with Appium
 
 **Previous Steps Context:**
 ${scenario.steps
@@ -380,7 +410,15 @@ Based on the error category "${errorType}", please analyze the test failure and 
 4. **Prevention Tips:** How to avoid this error in the future
 5. **Confidence Level:** Your confidence in this solution (1-10 scale)
 
-**IMPORTANT:** Provide all code solutions in JavaScript format for Node.js/Appium projects. Use JavaScript syntax with async/await, const/let declarations, and modern ES6+ features.
+**IMPORTANT:** Provide all code solutions in JavaScript format for WebDriverIO/Appium projects. Use modern JavaScript syntax with async/await, const/let declarations, and WebDriverIO v8+ API patterns.
+
+**WebDriverIO Code Format Required:**
+\`\`\`javascript
+// Use WebDriverIO v8+ syntax with Appium
+const element = await $('~accessibility-id');
+await element.waitForDisplayed({ timeout: 10000 });
+await element.click();
+\`\`\`
 
 `;
 
@@ -390,24 +428,25 @@ Based on the error category "${errorType}", please analyze the test failure and 
 **Specific Analysis for Element Not Found:**
 - Analyze the XML page source to find working selectors for elements mentioned in "${stepText}"
 - Extract exact working selectors from the XML that match the intended functionality
-- Provide alternative locator strategies (ID, accessibility-id, XPath, class name)
-- Consider timing issues and suggest explicit waits if needed
-- Provide solutions using JavaScript/Node.js Appium WebDriver syntax
+- Provide alternative locator strategies for WebDriverIO/Appium (accessibility-id, xpath, class name)
+- Consider timing issues and suggest explicit waits with WebDriverIO syntax
+- Focus on mobile app elements (XCUIElementType for iOS, android.widget for Android)
 
 **Required selector formats from XML:**
-- accessibility-id (if accessibility-id attribute exists)
-- resource-id value (if resource-id attribute exists) 
-- XPath based on actual XML structure
-- Class name or text-based selectors as alternatives
+- Accessibility ID: \`await $('~accessibility-id')\`
+- XPath: \`await $('//XCUIElementTypeButton[@name="button_name"]')\`
+- Class name: \`await $('.android.widget.Button')\`
+- ID (Android): \`await $('#resource-id')\`
 
-**JavaScript Code Format Required:**
+**WebDriverIO Code Format Required:**
 \`\`\`javascript
-// Use modern JavaScript syntax with async/await
-const element = await driver.findElement(By.accessibilityId('your-id'));
-await element.click();
+// Example: Wait for element and click
+const reserveButton = await $('~reserve_button');
+await reserveButton.waitForDisplayed({ timeout: 10000 });
+await reserveButton.click();
 \`\`\`
 
-Focus on finding the exact element that should be interacted with based on the step text and XML structure.
+Focus on finding the exact element that should be interacted with based on the step text and mobile app XML structure.
 `;
 
             case 'not_clickable':
@@ -416,13 +455,15 @@ Focus on finding the exact element that should be interacted with based on the s
 - Check if the element exists but is not clickable (covered by another element, disabled, etc.)
 - Analyze element properties like enabled, clickable, displayed from XML
 - Suggest solutions like scrolling, waiting for element to be clickable, or finding alternative click targets
-- Consider using JavaScript click or action chains if standard click fails
-- Provide solutions using JavaScript/Node.js Appium WebDriver syntax
+- Consider using WebDriverIO touch actions or coordinate-based clicking if standard click fails
+- Provide solutions using WebDriverIO/Appium syntax
 
-**JavaScript Code Format Required:**
+**WebDriverIO Code Format Required:**
 \`\`\`javascript
-// Example: Wait for element to be clickable
-const element = await driver.wait(until.elementIsEnabled(driver.findElement(By.id('button-id'))), 10000);
+// Example: Wait for element to be clickable and handle overlays
+const element = await $('~button-id');
+await element.waitForEnabled({ timeout: 10000 });
+await element.scrollIntoView();
 await element.click();
 \`\`\`
 
@@ -430,7 +471,7 @@ await element.click();
 - Element visibility and interactability
 - Overlapping elements or modal dialogs
 - Timing issues with dynamic content
-- Alternative interaction methods
+- Alternative interaction methods with WebDriverIO
 `;
 
             case 'timeout':
@@ -506,6 +547,32 @@ await element.click();
 - Retry and fallback strategies
 - Test environment network setup
 - API mocking and testing approaches
+`;
+
+            case 'text_input_issue':
+                return baseRequest + `
+**Specific Analysis for Text Input Issues:**
+- Examine if the element accepts text input (input field, text area, etc.)
+- Check element properties and state from XML page source
+- Suggest proper WebDriverIO text input methods
+- Consider clearing field before input, handling keyboard visibility, etc.
+- Provide solutions using WebDriverIO/Appium syntax for mobile apps
+
+**WebDriverIO Code Format Required:**
+\`\`\`javascript
+// Example: Clear and type text in input field
+const inputField = await $('//XCUIElementTypeTextField[@name="username"]');
+await inputField.waitForDisplayed({ timeout: 10000 });
+await inputField.clearValue();
+await inputField.setValue('new text');
+\`\`\`
+
+**Focus Areas:**
+- Proper element identification for text input
+- Clearing existing text before new input
+- Keyboard handling on mobile devices
+- Input validation and feedback
+- WebDriverIO text input methods
 `;
 
             default:

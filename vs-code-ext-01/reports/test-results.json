@@ -1,84 +1,211 @@
-{
-  "executionInfo": {
-    "startTime": "2025-07-21T12:19:16.009Z",
-    "endTime": "2025-07-21T12:19:27.091Z",
-    "totalDuration": 11082,
-    "platform": "Android",
-    "device": "Pixel 9a"
-  },
-  "summary": {
-    "totalScenarios": 1,
-    "passedScenarios": 0,
-    "failedScenarios": 1,
-    "skippedScenarios": 0,
-    "totalSteps": 4,
-    "passedSteps": 3,
-    "failedSteps": 1,
-    "skippedSteps": 0,
-    "successRate": 0
-  },
-  "scenarios": [
-    {
-      "name": "Set and validate the geo location",
-      "status": "FAILED",
-      "startTime": "2025-07-21T12:19:16.012Z",
-      "endTime": "2025-07-21T12:19:26.819Z",
-      "duration": 10807,
-      "steps": [
-        {
-          "stepNumber": 1,
-          "text": "the app is launched",
-          "status": "PASSED",
-          "timestamp": "2025-07-21T12:19:20.342Z",
-          "error": null,
-          "artifacts": {
-            "screenshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/AFTER_PASSED_the_app_is_launched_1753100360111.png",
-            "xmlSnapshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/pagesource_AFTER_PASSED_the_app_is_launched_1753100360111.xml"
+[
+  {
+    "keyword": "Feature",
+    "type": "feature",
+    "description": "",
+    "line": 1,
+    "name": "Non Signed in User flows",
+    "uri": "/Users/A-208296/Documents/FMW_Refactor/catalyst-native-ui/features_new/tmpspecs/vrbo.nonsignedindatedflow copy_6.feature",
+    "tags": [],
+    "elements": [
+      {
+        "keyword": "Scenario",
+        "type": "scenario",
+        "description": "",
+        "name": "VRBO_CUJ 1.2: As a traveller, I am able to do dated search and book a property",
+        "tags": [
+          {
+            "name": "@testios",
+            "astNodeId": "216ad790-527b-4b90-bfb1-ad31f547aa5b"
           }
-        },
-        {
-          "stepNumber": 2,
-          "text": "I tap on the menu button",
-          "status": "PASSED",
-          "timestamp": "2025-07-21T12:19:20.770Z",
-          "error": null,
-          "artifacts": {
-            "screenshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/AFTER_PASSED_I_tap_on_the_menu_button_1753100360563.png",
-            "xmlSnapshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/pagesource_AFTER_PASSED_I_tap_on_the_menu_button_1753100360563.xml"
-          }
-        },
-        {
-          "stepNumber": 3,
-          "text": "I tap on the login menu item",
-          "status": "PASSED",
-          "timestamp": "2025-07-21T12:19:21.321Z",
-          "error": null,
-          "artifacts": {
-            "screenshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/AFTER_PASSED_I_tap_on_the_login_menu_item_1753100361090.png",
-            "xmlSnapshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/pagesource_AFTER_PASSED_I_tap_on_the_login_menu_item_1753100361090.xml"
-          }
-        },
-        {
-          "stepNumber": 4,
-          "text": "I enter \"standard_user\" in the username field",
-          "status": "FAILED",
-          "timestamp": "2025-07-21T12:19:26.818Z",
-          "error": {
-            "message": "Failed to enter username \"standard_user\": Can't call setValue on element with selector \"~test-Username-field\" because element wasn't found",
-            "type": "Error",
-            "stack": null
+        ],
+        "id": "non-signed-in-user-flowsvrbo_cuj-1.2:-as-a-traveller,-i-am-able-to-do-dated-search-and-book-a-property",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Before",
+            "name": "",
+            "result": {
+              "status": "passed",
+              "duration": 438000000
+            },
+            "line": null,
+            "match": {
+              "location": "can not be determined with webdriver.io"
+            }
           },
-          "artifacts": {
-            "screenshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/AFTER_FAILED_I_enter__standard_user__in_the_1753100366571.png",
-            "xmlSnapshot": "/Users/LE1846/TestAutomation/appium/appiumVSCodeGenerator/appium-cucumber-allure-project/screenshots/pagesource_AFTER_FAILED_I_enter__standard_user__in_the_1753100366571.xml"
+          {
+            "arguments": [],
+            "keyword": "Given",
+            "name": "User disables all existing server side and client side TNLs using Magic Override",
+            "result": {
+              "status": "passed",
+              "duration": 9490000000
+            },
+            "line": null,
+            "match": {
+              "location": "can not be determined with webdriver.io"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And",
+            "name": "User launches Vrbo app, dismisses the welcome pages and lands on Home Page",
+            "result": {
+              "status": "passed",
+              "duration": 8178000000
+            },
+            "line": null,
+            "match": {
+              "location": "can not be determined with webdriver.io"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When",
+            "name": "User enters destination as \"London\"",
+            "result": {
+              "status": "passed",
+              "duration": 27210000000
+            },
+            "line": null,
+            "match": {
+              "location": "can not be determined with webdriver.io"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And",
+            "name": "selects start date as \"30\" days from current date and end date as \"32\" days from current date",
+            "result": {
+              "status": "passed",
+              "duration": 51650000000
+            },
+            "line": null,
+            "match": {
+              "location": "can not be determined with webdriver.io"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And",
+            "name": "searches for the available properties",
+            "result": {
+              "status": "passed",
+              "duration": 2350000000
+            },
+            "line": null,
+            "match": {
+              "location": "can not be determined with webdriver.io"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then",
+            "name": "User is navigated to Search Results page",
+            "result": {
+              "status": "passed",
+              "duration": 924000000
+            },
+            "line": null,
+            "match": {
+              "location": "can not be determined with webdriver.io"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When",
+            "name": "User selects first property from SRP",
+            "result": {
+              "status": "passed",
+              "duration": 8517000000
+            },
+            "line": null,
+            "match": {
+              "location": "can not be determined with webdriver.io"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then",
+            "name": "User navigates to Property details page",
+            "result": {
+              "status": "passed",
+              "duration": 40098000000
+            },
+            "line": null,
+            "match": {
+              "location": "can not be determined with webdriver.io"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When",
+            "name": "User proceeds to reserve the property from the PDP page",
+            "result": {
+              "status": "failed",
+              "duration": 79721000000,
+              "error_message": "Error: element (\"//XCUIElementTypeButton[@name='reserve_button']\") still not displayed after 10000ms\n    at file:///Users/A-208296/Documents/FMW_Refactor/catalyst-native-ui/node_modules/@wdio/runner/node_modules/webdriverio/build/commands/browser/waitUntil.js:39:23\n    at async Element.wrapCommandFn (file:///Users/A-208296/Documents/FMW_Refactor/catalyst-native-ui/node_modules/@wdio/utils/build/shim.js:90:29)\n    at async Element.elementErrorHandlerCallbackFn (file:///Users/A-208296/Documents/FMW_Refactor/catalyst-native-ui/node_modules/@wdio/runner/node_modules/webdriverio/build/middlewares.js:19:32)\n    at async Element.wrapCommandFn (file:///Users/A-208296/Documents/FMW_Refactor/catalyst-native-ui/node_modules/@wdio/utils/build/shim.js:90:29)\n    at async Element.wrapCommandFn (file:///Users/A-208296/Documents/FMW_Refactor/catalyst-native-ui/node_modules/@wdio/utils/build/shim.js:90:29)\n    at async Element.elementErrorHandlerCallbackFn (file:///Users/A-208296/Documents/FMW_Refactor/catalyst-native-ui/node_modules/@wdio/runner/node_modules/webdriverio/build/middlewares.js:19:32)\n    at async Element.wrapCommandFn (file:///Users/A-208296/Documents/FMW_Refactor/catalyst-native-ui/node_modules/@wdio/utils/build/shim.js:90:29)\n    at async PropertyDetailsPage.ClickElement (/Users/A-208296/Documents/FMW_Refactor/catalyst-native-ui/features_new/pageobjects/basePage.js:12:7)\n    at async PropertyDetailsPage.reserveProperty (/Users/A-208296/Documents/FMW_Refactor/catalyst-native-ui/features_new/pageobjects/pageactions/vrbo/lodging/vrbo.propertydetailspage.js:20:7)\n    at async CustomWorld.<anonymous> (/Users/A-208296/Documents/FMW_Refactor/catalyst-native-ui/features_new/step-definitions/common/lodging/common.nonsignedinflow.steps.js:27:4)"
+            },
+            "line": null,
+            "match": {
+              "location": "can not be determined with webdriver.io"
+            },
+            "embeddings": [
+              {
+                "data": "Screenshot: /Users/A-208296/Documents/FMW_Refactor/catalyst-native-ui/screenshots/1753966600821.png",
+                "mime_type": "text/plain"
+              },
+              {
+                "data": "Page Source: /Users/A-208296/Documents/FMW_Refactor/catalyst-native-ui/pageSource/1753966600821.xml",
+                "mime_type": "text/plain"
+              }
+            ],
+            "artifacts": {
+              "ScreenshotPath": "/Users/A-208296/Documents/FMW_Refactor/catalyst-native-ui/screenshots/1753966600821.png",
+              "PageSourcePath": "/Users/A-208296/Documents/FMW_Refactor/catalyst-native-ui/pageSource/1753966600821.xml"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then",
+            "name": "User is navigated to checkout page",
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            },
+            "line": null,
+            "match": {
+              "location": "can not be determined with webdriver.io"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "After",
+            "name": "",
+            "result": {
+              "status": "passed",
+              "duration": 732000000
+            },
+            "line": null,
+            "match": {
+              "location": "can not be determined with webdriver.io"
+            }
           }
-        }
-      ],
-      "errorSummary": {
-        "message": "Failed to enter username \"standard_user\": Can't call setValue on element with selector \"~test-Username-field\" because element wasn't found",
-        "type": "Error",
-        "failedStep": "I enter \"standard_user\" in the username field"
+        ]
+      }
+    ],
+    "id": "non-signed-in-user-flows",
+    "metadata": {
+      "browser": {
+        "name": "No metadata.browser.name available",
+        "version": "No metadata.browser.version available"
+      },
+      "device": "Device name not known",
+      "platform": {
+        "name": "iOS",
+        "version": "Version not known"
       }
     }
-  ]
-}
+  }
+]
