@@ -1,0 +1,52 @@
+{
+    "new": {
+        "pages": [
+            {
+                "elements": [
+                    {
+                        "class_name": "com.google.android.material.textfield.TextInputEditText",
+                        "content_desc": null,
+                        "index_path": "1.0.1.0",
+                        "page": "activity_flights",
+                        "resource_id": "@+id/etToLocation",
+                        "selectors": {
+                            "class_name": "com.google.android.material.textfield.TextInputEditText",
+                            "index": "1.0.1.0",
+                            "resource_id": "@+id/etToLocation",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/com.google.android.material.textfield.TextInputLayout[2]/com.google.android.material.textfield.TextInputEditText"
+                        },
+                        "tag": "com.google.android.material.textfield.TextInputEditText",
+                        "text": null,
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/com.google.android.material.textfield.TextInputLayout[2]/com.google.android.material.textfield.TextInputEditText"
+                    }
+                ],
+                "page": "activity_flights"
+            }
+        ]
+    },
+    "old": {
+        "pages": [
+            {
+                "elements": [
+                    {
+                        "class_name": "com.google.android.material.textfield.TextInputEditText",
+                        "content_desc": null,
+                        "index_path": "1.0.1.0",
+                        "page": "activity_flights",
+                        "resource_id": "@+id/etTo",
+                        "selectors": {
+                            "class_name": "com.google.android.material.textfield.TextInputEditText",
+                            "index": "1.0.1.0",
+                            "resource_id": "@+id/etTo",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/com.google.android.material.textfield.TextInputLayout[2]/com.google.android.material.textfield.TextInputEditText"
+                        },
+                        "tag": "com.google.android.material.textfield.TextInputEditText",
+                        "text": null,
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/com.google.android.material.textfield.TextInputLayout[2]/com.google.android.material.textfield.TextInputEditText"
+                    }
+                ],
+                "page": "activity_flights"
+            }
+        ]
+    }
+}

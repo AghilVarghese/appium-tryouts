@@ -1,0 +1,992 @@
+{
+    "new": {
+        "pages": []
+    },
+    "old": {
+        "pages": [
+            {
+                "element_count": 16,
+                "elements": [
+                    {
+                        "attributes": [
+                            {
+                                "name": "id",
+                                "value": "@+id/toolbar"
+                            },
+                            {
+                                "name": "layout_width",
+                                "value": "0dp"
+                            },
+                            {
+                                "name": "layout_height",
+                                "value": "wrap_content"
+                            },
+                            {
+                                "name": "background",
+                                "value": "@color/primary"
+                            },
+                            {
+                                "name": "theme",
+                                "value": "@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                            },
+                            {
+                                "name": "layout_constraintEnd_toEndOf",
+                                "value": "parent"
+                            },
+                            {
+                                "name": "layout_constraintStart_toStartOf",
+                                "value": "parent"
+                            },
+                            {
+                                "name": "layout_constraintTop_toTopOf",
+                                "value": "parent"
+                            },
+                            {
+                                "name": "title",
+                                "value": "@string/flights"
+                            }
+                        ],
+                        "class_name": "com.google.android.material.appbar.MaterialToolbar",
+                        "content_desc": null,
+                        "index_path": "0",
+                        "page": "activity_flights",
+                        "preferred_selector": {
+                            "strategy": "resource_id",
+                            "value": "@+id/toolbar"
+                        },
+                        "resource_id": "@+id/toolbar",
+                        "selectors": {
+                            "class_name": "com.google.android.material.appbar.MaterialToolbar",
+                            "index": "0",
+                            "resource_id": "@+id/toolbar",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/com.google.android.material.appbar.MaterialToolbar"
+                        },
+                        "tag": "com.google.android.material.appbar.MaterialToolbar",
+                        "text": null,
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/com.google.android.material.appbar.MaterialToolbar"
+                    },
+                    {
+                        "attributes": [
+                            {
+                                "name": "layout_width",
+                                "value": "0dp"
+                            },
+                            {
+                                "name": "layout_height",
+                                "value": "0dp"
+                            },
+                            {
+                                "name": "padding",
+                                "value": "16dp"
+                            },
+                            {
+                                "name": "layout_constraintBottom_toBottomOf",
+                                "value": "parent"
+                            },
+                            {
+                                "name": "layout_constraintEnd_toEndOf",
+                                "value": "parent"
+                            },
+                            {
+                                "name": "layout_constraintStart_toStartOf",
+                                "value": "parent"
+                            },
+                            {
+                                "name": "layout_constraintTop_toBottomOf",
+                                "value": "@+id/toolbar"
+                            }
+                        ],
+                        "class_name": "ScrollView",
+                        "content_desc": null,
+                        "index_path": "1",
+                        "page": "activity_flights",
+                        "preferred_selector": {
+                            "strategy": "class_name",
+                            "value": "ScrollView"
+                        },
+                        "resource_id": null,
+                        "selectors": {
+                            "class_name": "ScrollView",
+                            "index": "1",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView"
+                        },
+                        "tag": "ScrollView",
+                        "text": null,
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView"
+                    },
+                    {
+                        "attributes": [
+                            {
+                                "name": "layout_width",
+                                "value": "match_parent"
+                            },
+                            {
+                                "name": "layout_height",
+                                "value": "wrap_content"
+                            },
+                            {
+                                "name": "orientation",
+                                "value": "vertical"
+                            }
+                        ],
+                        "class_name": "LinearLayout",
+                        "content_desc": null,
+                        "index_path": "1.0",
+                        "page": "activity_flights",
+                        "preferred_selector": {
+                            "strategy": "class_name",
+                            "value": "LinearLayout"
+                        },
+                        "resource_id": null,
+                        "selectors": {
+                            "class_name": "LinearLayout",
+                            "index": "1.0",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout"
+                        },
+                        "tag": "LinearLayout",
+                        "text": null,
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout"
+                    },
+                    {
+                        "attributes": [
+                            {
+                                "name": "id",
+                                "value": "@+id/tilFrom"
+                            },
+                            {
+                                "name": "layout_width",
+                                "value": "match_parent"
+                            },
+                            {
+                                "name": "layout_height",
+                                "value": "wrap_content"
+                            },
+                            {
+                                "name": "layout_marginBottom",
+                                "value": "16dp"
+                            },
+                            {
+                                "name": "hint",
+                                "value": "@string/from_location"
+                            },
+                            {
+                                "name": "startIconDrawable",
+                                "value": "@drawable/ic_flight_takeoff"
+                            }
+                        ],
+                        "class_name": "com.google.android.material.textfield.TextInputLayout",
+                        "content_desc": null,
+                        "index_path": "1.0.0",
+                        "page": "activity_flights",
+                        "preferred_selector": {
+                            "strategy": "resource_id",
+                            "value": "@+id/tilFrom"
+                        },
+                        "resource_id": "@+id/tilFrom",
+                        "selectors": {
+                            "class_name": "com.google.android.material.textfield.TextInputLayout",
+                            "index": "1.0.0",
+                            "resource_id": "@+id/tilFrom",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/com.google.android.material.textfield.TextInputLayout[1]"
+                        },
+                        "tag": "com.google.android.material.textfield.TextInputLayout",
+                        "text": null,
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/com.google.android.material.textfield.TextInputLayout[1]"
+                    },
+                    {
+                        "attributes": [
+                            {
+                                "name": "id",
+                                "value": "@+id/etFrom"
+                            },
+                            {
+                                "name": "layout_width",
+                                "value": "match_parent"
+                            },
+                            {
+                                "name": "layout_height",
+                                "value": "wrap_content"
+                            },
+                            {
+                                "name": "inputType",
+                                "value": "textCapWords"
+                            }
+                        ],
+                        "class_name": "com.google.android.material.textfield.TextInputEditText",
+                        "content_desc": null,
+                        "index_path": "1.0.0.0",
+                        "page": "activity_flights",
+                        "preferred_selector": {
+                            "strategy": "resource_id",
+                            "value": "@+id/etFrom"
+                        },
+                        "resource_id": "@+id/etFrom",
+                        "selectors": {
+                            "class_name": "com.google.android.material.textfield.TextInputEditText",
+                            "index": "1.0.0.0",
+                            "resource_id": "@+id/etFrom",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/com.google.android.material.textfield.TextInputLayout[1]/com.google.android.material.textfield.TextInputEditText"
+                        },
+                        "tag": "com.google.android.material.textfield.TextInputEditText",
+                        "text": null,
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/com.google.android.material.textfield.TextInputLayout[1]/com.google.android.material.textfield.TextInputEditText"
+                    },
+                    {
+                        "attributes": [
+                            {
+                                "name": "id",
+                                "value": "@+id/tilTo"
+                            },
+                            {
+                                "name": "layout_width",
+                                "value": "match_parent"
+                            },
+                            {
+                                "name": "layout_height",
+                                "value": "wrap_content"
+                            },
+                            {
+                                "name": "layout_marginBottom",
+                                "value": "24dp"
+                            },
+                            {
+                                "name": "hint",
+                                "value": "@string/to_location"
+                            },
+                            {
+                                "name": "startIconDrawable",
+                                "value": "@drawable/ic_flight_land"
+                            }
+                        ],
+                        "class_name": "com.google.android.material.textfield.TextInputLayout",
+                        "content_desc": null,
+                        "index_path": "1.0.1",
+                        "page": "activity_flights",
+                        "preferred_selector": {
+                            "strategy": "resource_id",
+                            "value": "@+id/tilTo"
+                        },
+                        "resource_id": "@+id/tilTo",
+                        "selectors": {
+                            "class_name": "com.google.android.material.textfield.TextInputLayout",
+                            "index": "1.0.1",
+                            "resource_id": "@+id/tilTo",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/com.google.android.material.textfield.TextInputLayout[2]"
+                        },
+                        "tag": "com.google.android.material.textfield.TextInputLayout",
+                        "text": null,
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/com.google.android.material.textfield.TextInputLayout[2]"
+                    },
+                    {
+                        "attributes": [
+                            {
+                                "name": "id",
+                                "value": "@+id/etTo"
+                            },
+                            {
+                                "name": "layout_width",
+                                "value": "match_parent"
+                            },
+                            {
+                                "name": "layout_height",
+                                "value": "wrap_content"
+                            },
+                            {
+                                "name": "inputType",
+                                "value": "textCapWords"
+                            }
+                        ],
+                        "class_name": "com.google.android.material.textfield.TextInputEditText",
+                        "content_desc": null,
+                        "index_path": "1.0.1.0",
+                        "page": "activity_flights",
+                        "preferred_selector": {
+                            "strategy": "resource_id",
+                            "value": "@+id/etTo"
+                        },
+                        "resource_id": "@+id/etTo",
+                        "selectors": {
+                            "class_name": "com.google.android.material.textfield.TextInputEditText",
+                            "index": "1.0.1.0",
+                            "resource_id": "@+id/etTo",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/com.google.android.material.textfield.TextInputLayout[2]/com.google.android.material.textfield.TextInputEditText"
+                        },
+                        "tag": "com.google.android.material.textfield.TextInputEditText",
+                        "text": null,
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/com.google.android.material.textfield.TextInputLayout[2]/com.google.android.material.textfield.TextInputEditText"
+                    },
+                    {
+                        "attributes": [
+                            {
+                                "name": "layout_width",
+                                "value": "wrap_content"
+                            },
+                            {
+                                "name": "layout_height",
+                                "value": "wrap_content"
+                            },
+                            {
+                                "name": "layout_marginBottom",
+                                "value": "8dp"
+                            },
+                            {
+                                "name": "text",
+                                "value": "@string/trip_type"
+                            },
+                            {
+                                "name": "textColor",
+                                "value": "@color/text_primary"
+                            },
+                            {
+                                "name": "textSize",
+                                "value": "16sp"
+                            },
+                            {
+                                "name": "textStyle",
+                                "value": "bold"
+                            }
+                        ],
+                        "class_name": "TextView",
+                        "content_desc": null,
+                        "index_path": "1.0.2",
+                        "page": "activity_flights",
+                        "preferred_selector": {
+                            "strategy": "text",
+                            "value": "@string/trip_type"
+                        },
+                        "resource_id": null,
+                        "selectors": {
+                            "class_name": "TextView",
+                            "index": "1.0.2",
+                            "text": "@string/trip_type",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/TextView"
+                        },
+                        "tag": "TextView",
+                        "text": "@string/trip_type",
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/TextView"
+                    },
+                    {
+                        "attributes": [
+                            {
+                                "name": "id",
+                                "value": "@+id/rgTripType"
+                            },
+                            {
+                                "name": "layout_width",
+                                "value": "match_parent"
+                            },
+                            {
+                                "name": "layout_height",
+                                "value": "wrap_content"
+                            },
+                            {
+                                "name": "layout_marginBottom",
+                                "value": "24dp"
+                            },
+                            {
+                                "name": "orientation",
+                                "value": "horizontal"
+                            }
+                        ],
+                        "class_name": "RadioGroup",
+                        "content_desc": null,
+                        "index_path": "1.0.3",
+                        "page": "activity_flights",
+                        "preferred_selector": {
+                            "strategy": "resource_id",
+                            "value": "@+id/rgTripType"
+                        },
+                        "resource_id": "@+id/rgTripType",
+                        "selectors": {
+                            "class_name": "RadioGroup",
+                            "index": "1.0.3",
+                            "resource_id": "@+id/rgTripType",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/RadioGroup"
+                        },
+                        "tag": "RadioGroup",
+                        "text": null,
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/RadioGroup"
+                    },
+                    {
+                        "attributes": [
+                            {
+                                "name": "id",
+                                "value": "@+id/rbRoundTrip"
+                            },
+                            {
+                                "name": "layout_width",
+                                "value": "wrap_content"
+                            },
+                            {
+                                "name": "layout_height",
+                                "value": "wrap_content"
+                            },
+                            {
+                                "name": "layout_marginEnd",
+                                "value": "32dp"
+                            },
+                            {
+                                "name": "checked",
+                                "value": "true"
+                            },
+                            {
+                                "name": "text",
+                                "value": "@string/round_trip"
+                            }
+                        ],
+                        "class_name": "RadioButton",
+                        "content_desc": null,
+                        "index_path": "1.0.3.0",
+                        "page": "activity_flights",
+                        "preferred_selector": {
+                            "strategy": "resource_id",
+                            "value": "@+id/rbRoundTrip"
+                        },
+                        "resource_id": "@+id/rbRoundTrip",
+                        "selectors": {
+                            "class_name": "RadioButton",
+                            "index": "1.0.3.0",
+                            "resource_id": "@+id/rbRoundTrip",
+                            "text": "@string/round_trip",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/RadioGroup/RadioButton[1]"
+                        },
+                        "tag": "RadioButton",
+                        "text": "@string/round_trip",
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/RadioGroup/RadioButton[1]"
+                    },
+                    {
+                        "attributes": [
+                            {
+                                "name": "id",
+                                "value": "@+id/rbOneWay"
+                            },
+                            {
+                                "name": "layout_width",
+                                "value": "wrap_content"
+                            },
+                            {
+                                "name": "layout_height",
+                                "value": "wrap_content"
+                            },
+                            {
+                                "name": "text",
+                                "value": "@string/one_way"
+                            }
+                        ],
+                        "class_name": "RadioButton",
+                        "content_desc": null,
+                        "index_path": "1.0.3.1",
+                        "page": "activity_flights",
+                        "preferred_selector": {
+                            "strategy": "resource_id",
+                            "value": "@+id/rbOneWay"
+                        },
+                        "resource_id": "@+id/rbOneWay",
+                        "selectors": {
+                            "class_name": "RadioButton",
+                            "index": "1.0.3.1",
+                            "resource_id": "@+id/rbOneWay",
+                            "text": "@string/one_way",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/RadioGroup/RadioButton[2]"
+                        },
+                        "tag": "RadioButton",
+                        "text": "@string/one_way",
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/RadioGroup/RadioButton[2]"
+                    },
+                    {
+                        "attributes": [
+                            {
+                                "name": "id",
+                                "value": "@+id/tilDepartureDate"
+                            },
+                            {
+                                "name": "layout_width",
+                                "value": "match_parent"
+                            },
+                            {
+                                "name": "layout_height",
+                                "value": "wrap_content"
+                            },
+                            {
+                                "name": "layout_marginBottom",
+                                "value": "16dp"
+                            },
+                            {
+                                "name": "hint",
+                                "value": "@string/departure_date"
+                            },
+                            {
+                                "name": "startIconDrawable",
+                                "value": "@drawable/ic_calendar"
+                            }
+                        ],
+                        "class_name": "com.google.android.material.textfield.TextInputLayout",
+                        "content_desc": null,
+                        "index_path": "1.0.4",
+                        "page": "activity_flights",
+                        "preferred_selector": {
+                            "strategy": "resource_id",
+                            "value": "@+id/tilDepartureDate"
+                        },
+                        "resource_id": "@+id/tilDepartureDate",
+                        "selectors": {
+                            "class_name": "com.google.android.material.textfield.TextInputLayout",
+                            "index": "1.0.4",
+                            "resource_id": "@+id/tilDepartureDate",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/com.google.android.material.textfield.TextInputLayout[3]"
+                        },
+                        "tag": "com.google.android.material.textfield.TextInputLayout",
+                        "text": null,
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/com.google.android.material.textfield.TextInputLayout[3]"
+                    },
+                    {
+                        "attributes": [
+                            {
+                                "name": "id",
+                                "value": "@+id/etDepartureDate9"
+                            },
+                            {
+                                "name": "layout_width",
+                                "value": "match_parent"
+                            },
+                            {
+                                "name": "layout_height",
+                                "value": "wrap_content"
+                            },
+                            {
+                                "name": "clickable",
+                                "value": "true"
+                            },
+                            {
+                                "name": "focusable",
+                                "value": "false"
+                            }
+                        ],
+                        "class_name": "com.google.android.material.textfield.TextInputEditText",
+                        "content_desc": null,
+                        "index_path": "1.0.4.0",
+                        "page": "activity_flights",
+                        "preferred_selector": {
+                            "strategy": "resource_id",
+                            "value": "@+id/etDepartureDate9"
+                        },
+                        "resource_id": "@+id/etDepartureDate9",
+                        "selectors": {
+                            "class_name": "com.google.android.material.textfield.TextInputEditText",
+                            "index": "1.0.4.0",
+                            "resource_id": "@+id/etDepartureDate9",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/com.google.android.material.textfield.TextInputLayout[3]/com.google.android.material.textfield.TextInputEditText"
+                        },
+                        "tag": "com.google.android.material.textfield.TextInputEditText",
+                        "text": null,
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/com.google.android.material.textfield.TextInputLayout[3]/com.google.android.material.textfield.TextInputEditText"
+                    },
+                    {
+                        "attributes": [
+                            {
+                                "name": "id",
+                                "value": "@+id/tilReturnDate"
+                            },
+                            {
+                                "name": "layout_width",
+                                "value": "match_parent"
+                            },
+                            {
+                                "name": "layout_height",
+                                "value": "wrap_content"
+                            },
+                            {
+                                "name": "layout_marginBottom",
+                                "value": "32dp"
+                            },
+                            {
+                                "name": "hint",
+                                "value": "@string/return_date"
+                            },
+                            {
+                                "name": "startIconDrawable",
+                                "value": "@drawable/ic_calendar"
+                            }
+                        ],
+                        "class_name": "com.google.android.material.textfield.TextInputLayout",
+                        "content_desc": null,
+                        "index_path": "1.0.5",
+                        "page": "activity_flights",
+                        "preferred_selector": {
+                            "strategy": "resource_id",
+                            "value": "@+id/tilReturnDate"
+                        },
+                        "resource_id": "@+id/tilReturnDate",
+                        "selectors": {
+                            "class_name": "com.google.android.material.textfield.TextInputLayout",
+                            "index": "1.0.5",
+                            "resource_id": "@+id/tilReturnDate",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/com.google.android.material.textfield.TextInputLayout[4]"
+                        },
+                        "tag": "com.google.android.material.textfield.TextInputLayout",
+                        "text": null,
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/com.google.android.material.textfield.TextInputLayout[4]"
+                    },
+                    {
+                        "attributes": [
+                            {
+                                "name": "id",
+                                "value": "@+id/etReturnDate"
+                            },
+                            {
+                                "name": "layout_width",
+                                "value": "match_parent"
+                            },
+                            {
+                                "name": "layout_height",
+                                "value": "wrap_content"
+                            },
+                            {
+                                "name": "clickable",
+                                "value": "true"
+                            },
+                            {
+                                "name": "focusable",
+                                "value": "false"
+                            }
+                        ],
+                        "class_name": "com.google.android.material.textfield.TextInputEditText",
+                        "content_desc": null,
+                        "index_path": "1.0.5.0",
+                        "page": "activity_flights",
+                        "preferred_selector": {
+                            "strategy": "resource_id",
+                            "value": "@+id/etReturnDate"
+                        },
+                        "resource_id": "@+id/etReturnDate",
+                        "selectors": {
+                            "class_name": "com.google.android.material.textfield.TextInputEditText",
+                            "index": "1.0.5.0",
+                            "resource_id": "@+id/etReturnDate",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/com.google.android.material.textfield.TextInputLayout[4]/com.google.android.material.textfield.TextInputEditText"
+                        },
+                        "tag": "com.google.android.material.textfield.TextInputEditText",
+                        "text": null,
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/com.google.android.material.textfield.TextInputLayout[4]/com.google.android.material.textfield.TextInputEditText"
+                    },
+                    {
+                        "attributes": [
+                            {
+                                "name": "id",
+                                "value": "@+id/btnSearch"
+                            },
+                            {
+                                "name": "layout_width",
+                                "value": "match_parent"
+                            },
+                            {
+                                "name": "layout_height",
+                                "value": "56dp"
+                            },
+                            {
+                                "name": "text",
+                                "value": "@string/search_flights"
+                            },
+                            {
+                                "name": "textSize",
+                                "value": "18sp"
+                            },
+                            {
+                                "name": "backgroundTint",
+                                "value": "@color/primary"
+                            },
+                            {
+                                "name": "cornerRadius",
+                                "value": "12dp"
+                            }
+                        ],
+                        "class_name": "com.google.android.material.button.MaterialButton",
+                        "content_desc": null,
+                        "index_path": "1.0.6",
+                        "page": "activity_flights",
+                        "preferred_selector": {
+                            "strategy": "resource_id",
+                            "value": "@+id/btnSearch"
+                        },
+                        "resource_id": "@+id/btnSearch",
+                        "selectors": {
+                            "class_name": "com.google.android.material.button.MaterialButton",
+                            "index": "1.0.6",
+                            "resource_id": "@+id/btnSearch",
+                            "text": "@string/search_flights",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/com.google.android.material.button.MaterialButton"
+                        },
+                        "tag": "com.google.android.material.button.MaterialButton",
+                        "text": "@string/search_flights",
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/ScrollView/LinearLayout/com.google.android.material.button.MaterialButton"
+                    }
+                ],
+                "file": "activity_flights.xml",
+                "page": "activity_flights"
+            },
+            {
+                "element_count": 4,
+                "elements": [
+                    {
+                        "attributes": [
+                            {
+                                "name": "id",
+                                "value": "@+id/toolbar"
+                            },
+                            {
+                                "name": "layout_width",
+                                "value": "0dp"
+                            },
+                            {
+                                "name": "layout_height",
+                                "value": "wrap_content"
+                            },
+                            {
+                                "name": "background",
+                                "value": "@color/primary"
+                            },
+                            {
+                                "name": "theme",
+                                "value": "@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                            },
+                            {
+                                "name": "layout_constraintEnd_toEndOf",
+                                "value": "parent"
+                            },
+                            {
+                                "name": "layout_constraintStart_toStartOf",
+                                "value": "parent"
+                            },
+                            {
+                                "name": "layout_constraintTop_toTopOf",
+                                "value": "parent"
+                            }
+                        ],
+                        "class_name": "com.google.android.material.appbar.MaterialToolbar",
+                        "content_desc": null,
+                        "index_path": "0",
+                        "page": "activity_flight_results",
+                        "preferred_selector": {
+                            "strategy": "resource_id",
+                            "value": "@+id/toolbar"
+                        },
+                        "resource_id": "@+id/toolbar",
+                        "selectors": {
+                            "class_name": "com.google.android.material.appbar.MaterialToolbar",
+                            "index": "0",
+                            "resource_id": "@+id/toolbar",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/com.google.android.material.appbar.MaterialToolbar"
+                        },
+                        "tag": "com.google.android.material.appbar.MaterialToolbar",
+                        "text": null,
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/com.google.android.material.appbar.MaterialToolbar"
+                    },
+                    {
+                        "attributes": [
+                            {
+                                "name": "id",
+                                "value": "@+id/tvSearchSummary"
+                            },
+                            {
+                                "name": "layout_width",
+                                "value": "0dp"
+                            },
+                            {
+                                "name": "layout_height",
+                                "value": "wrap_content"
+                            },
+                            {
+                                "name": "layout_margin",
+                                "value": "16dp"
+                            },
+                            {
+                                "name": "textColor",
+                                "value": "@color/text_primary"
+                            },
+                            {
+                                "name": "textSize",
+                                "value": "18sp"
+                            },
+                            {
+                                "name": "textStyle",
+                                "value": "bold"
+                            },
+                            {
+                                "name": "layout_constraintEnd_toEndOf",
+                                "value": "parent"
+                            },
+                            {
+                                "name": "layout_constraintStart_toStartOf",
+                                "value": "parent"
+                            },
+                            {
+                                "name": "layout_constraintTop_toBottomOf",
+                                "value": "@+id/toolbar"
+                            },
+                            {
+                                "name": "text",
+                                "value": "New York → Los Angeles"
+                            }
+                        ],
+                        "class_name": "TextView",
+                        "content_desc": null,
+                        "index_path": "1",
+                        "page": "activity_flight_results",
+                        "preferred_selector": {
+                            "strategy": "resource_id",
+                            "value": "@+id/tvSearchSummary"
+                        },
+                        "resource_id": "@+id/tvSearchSummary",
+                        "selectors": {
+                            "class_name": "TextView",
+                            "index": "1",
+                            "resource_id": "@+id/tvSearchSummary",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/TextView[1]"
+                        },
+                        "tag": "TextView",
+                        "text": null,
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/TextView[1]"
+                    },
+                    {
+                        "attributes": [
+                            {
+                                "name": "id",
+                                "value": "@+id/tvResultsCount"
+                            },
+                            {
+                                "name": "layout_width",
+                                "value": "0dp"
+                            },
+                            {
+                                "name": "layout_height",
+                                "value": "wrap_content"
+                            },
+                            {
+                                "name": "layout_marginStart",
+                                "value": "16dp"
+                            },
+                            {
+                                "name": "layout_marginTop",
+                                "value": "8dp"
+                            },
+                            {
+                                "name": "layout_marginEnd",
+                                "value": "16dp"
+                            },
+                            {
+                                "name": "textColor",
+                                "value": "@color/text_secondary"
+                            },
+                            {
+                                "name": "textSize",
+                                "value": "14sp"
+                            },
+                            {
+                                "name": "layout_constraintEnd_toEndOf",
+                                "value": "parent"
+                            },
+                            {
+                                "name": "layout_constraintStart_toStartOf",
+                                "value": "parent"
+                            },
+                            {
+                                "name": "layout_constraintTop_toBottomOf",
+                                "value": "@+id/tvSearchSummary"
+                            },
+                            {
+                                "name": "text",
+                                "value": "5 flights found"
+                            }
+                        ],
+                        "class_name": "TextView",
+                        "content_desc": null,
+                        "index_path": "2",
+                        "page": "activity_flight_results",
+                        "preferred_selector": {
+                            "strategy": "resource_id",
+                            "value": "@+id/tvResultsCount"
+                        },
+                        "resource_id": "@+id/tvResultsCount",
+                        "selectors": {
+                            "class_name": "TextView",
+                            "index": "2",
+                            "resource_id": "@+id/tvResultsCount",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/TextView[2]"
+                        },
+                        "tag": "TextView",
+                        "text": null,
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/TextView[2]"
+                    },
+                    {
+                        "attributes": [
+                            {
+                                "name": "id",
+                                "value": "@+id/rvFlights"
+                            },
+                            {
+                                "name": "layout_width",
+                                "value": "0dp"
+                            },
+                            {
+                                "name": "layout_height",
+                                "value": "0dp"
+                            },
+                            {
+                                "name": "layout_marginTop",
+                                "value": "16dp"
+                            },
+                            {
+                                "name": "clipToPadding",
+                                "value": "false"
+                            },
+                            {
+                                "name": "paddingBottom",
+                                "value": "16dp"
+                            },
+                            {
+                                "name": "layout_constraintBottom_toBottomOf",
+                                "value": "parent"
+                            },
+                            {
+                                "name": "layout_constraintEnd_toEndOf",
+                                "value": "parent"
+                            },
+                            {
+                                "name": "layout_constraintStart_toStartOf",
+                                "value": "parent"
+                            },
+                            {
+                                "name": "layout_constraintTop_toBottomOf",
+                                "value": "@+id/tvResultsCount"
+                            },
+                            {
+                                "name": "listitem",
+                                "value": "@layout/item_flight"
+                            }
+                        ],
+                        "class_name": "androidx.recyclerview.widget.RecyclerView",
+                        "content_desc": null,
+                        "index_path": "3",
+                        "page": "activity_flight_results",
+                        "preferred_selector": {
+                            "strategy": "resource_id",
+                            "value": "@+id/rvFlights"
+                        },
+                        "resource_id": "@+id/rvFlights",
+                        "selectors": {
+                            "class_name": "androidx.recyclerview.widget.RecyclerView",
+                            "index": "3",
+                            "resource_id": "@+id/rvFlights",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/androidx.recyclerview.widget.RecyclerView"
+                        },
+                        "tag": "androidx.recyclerview.widget.RecyclerView",
+                        "text": null,
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/androidx.recyclerview.widget.RecyclerView"
+                    }
+                ],
+                "file": "activity_flight_results.xml",
+                "page": "activity_flight_results"
+            }
+        ]
+    }
+}

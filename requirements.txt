@@ -1,0 +1,10 @@
+
+Flask
+langchain
+langchain-community
+
+ollama
+deepseek
+openai
+python-dotenv
+chromadb

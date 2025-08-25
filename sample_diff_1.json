@@ -1,0 +1,288 @@
+{
+    "new": {
+        "pages": [
+            {
+                "elements": [
+                    {
+                        "attributes": [
+                            {
+                                "name": "id",
+                                "value": "@+id/btnFlightsButton"
+                            },
+                            {
+                                "name": "layout_width",
+                                "value": "match_parent"
+                            },
+                            {
+                                "name": "layout_height",
+                                "value": "64dp"
+                            },
+                            {
+                                "name": "layout_marginBottom",
+                                "value": "16dp"
+                            },
+                            {
+                                "name": "text",
+                                "value": "@string/flights"
+                            },
+                            {
+                                "name": "textSize",
+                                "value": "18sp"
+                            },
+                            {
+                                "name": "backgroundTint",
+                                "value": "@color/primary"
+                            },
+                            {
+                                "name": "cornerRadius",
+                                "value": "12dp"
+                            },
+                            {
+                                "name": "icon",
+                                "value": "@drawable/ic_flight"
+                            },
+                            {
+                                "name": "iconGravity",
+                                "value": "start"
+                            },
+                            {
+                                "name": "iconPadding",
+                                "value": "16dp"
+                            }
+                        ],
+                        "class_name": "com.google.android.material.button.MaterialButton",
+                        "content_desc": null,
+                        "index_path": "2.0",
+                        "page": "activity_main",
+                        "preferred_selector": {
+                            "strategy": "resource_id",
+                            "value": "@+id/btnFlightsButton"
+                        },
+                        "resource_id": "@+id/btnFlightsButton",
+                        "selectors": {
+                            "class_name": "com.google.android.material.button.MaterialButton",
+                            "index": "2.0",
+                            "resource_id": "@+id/btnFlightsButton",
+                            "text": "@string/flights",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/LinearLayout/com.google.android.material.button.MaterialButton[1]"
+                        },
+                        "tag": "com.google.android.material.button.MaterialButton",
+                        "text": "@string/flights",
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/LinearLayout/com.google.android.material.button.MaterialButton[1]"
+                    },
+                    {
+                        "attributes": [
+                            {
+                                "name": "id",
+                                "value": "@+id/btnPackagesButton"
+                            },
+                            {
+                                "name": "layout_width",
+                                "value": "match_parent"
+                            },
+                            {
+                                "name": "layout_height",
+                                "value": "64dp"
+                            },
+                            {
+                                "name": "layout_marginBottom",
+                                "value": "16dp"
+                            },
+                            {
+                                "name": "text",
+                                "value": "@string/packages"
+                            },
+                            {
+                                "name": "textSize",
+                                "value": "18sp"
+                            },
+                            {
+                                "name": "backgroundTint",
+                                "value": "@color/secondary"
+                            },
+                            {
+                                "name": "cornerRadius",
+                                "value": "12dp"
+                            },
+                            {
+                                "name": "icon",
+                                "value": "@drawable/ic_package"
+                            },
+                            {
+                                "name": "iconGravity",
+                                "value": "start"
+                            },
+                            {
+                                "name": "iconPadding",
+                                "value": "16dp"
+                            }
+                        ],
+                        "class_name": "com.google.android.material.button.MaterialButton",
+                        "content_desc": null,
+                        "index_path": "2.1",
+                        "page": "activity_main",
+                        "preferred_selector": {
+                            "strategy": "resource_id",
+                            "value": "@+id/btnPackagesButton"
+                        },
+                        "resource_id": "@+id/btnPackagesButton",
+                        "selectors": {
+                            "class_name": "com.google.android.material.button.MaterialButton",
+                            "index": "2.1",
+                            "resource_id": "@+id/btnPackagesButton",
+                            "text": "@string/packages",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/LinearLayout/com.google.android.material.button.MaterialButton[2]"
+                        },
+                        "tag": "com.google.android.material.button.MaterialButton",
+                        "text": "@string/packages",
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/LinearLayout/com.google.android.material.button.MaterialButton[2]"
+                    }
+                ],
+                "page": "activity_main"
+            }
+        ]
+    },
+    "old": {
+        "pages": [
+            {
+                "elements": [
+                    {
+                        "attributes": [
+                            {
+                                "name": "id",
+                                "value": "@+id/btnFlights"
+                            },
+                            {
+                                "name": "layout_width",
+                                "value": "match_parent"
+                            },
+                            {
+                                "name": "layout_height",
+                                "value": "64dp"
+                            },
+                            {
+                                "name": "layout_marginBottom",
+                                "value": "16dp"
+                            },
+                            {
+                                "name": "text",
+                                "value": "@string/flights"
+                            },
+                            {
+                                "name": "textSize",
+                                "value": "18sp"
+                            },
+                            {
+                                "name": "backgroundTint",
+                                "value": "@color/primary"
+                            },
+                            {
+                                "name": "cornerRadius",
+                                "value": "12dp"
+                            },
+                            {
+                                "name": "icon",
+                                "value": "@drawable/ic_flight"
+                            },
+                            {
+                                "name": "iconGravity",
+                                "value": "start"
+                            },
+                            {
+                                "name": "iconPadding",
+                                "value": "16dp"
+                            }
+                        ],
+                        "class_name": "com.google.android.material.button.MaterialButton",
+                        "content_desc": null,
+                        "index_path": "2.0",
+                        "page": "activity_main",
+                        "preferred_selector": {
+                            "strategy": "resource_id",
+                            "value": "@+id/btnFlights"
+                        },
+                        "resource_id": "@+id/btnFlights",
+                        "selectors": {
+                            "class_name": "com.google.android.material.button.MaterialButton",
+                            "index": "2.0",
+                            "resource_id": "@+id/btnFlights",
+                            "text": "@string/flights",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/LinearLayout/com.google.android.material.button.MaterialButton[1]"
+                        },
+                        "tag": "com.google.android.material.button.MaterialButton",
+                        "text": "@string/flights",
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/LinearLayout/com.google.android.material.button.MaterialButton[1]"
+                    },
+                    {
+                        "attributes": [
+                            {
+                                "name": "id",
+                                "value": "@+id/btnPackages"
+                            },
+                            {
+                                "name": "layout_width",
+                                "value": "match_parent"
+                            },
+                            {
+                                "name": "layout_height",
+                                "value": "64dp"
+                            },
+                            {
+                                "name": "layout_marginBottom",
+                                "value": "16dp"
+                            },
+                            {
+                                "name": "text",
+                                "value": "@string/packages"
+                            },
+                            {
+                                "name": "textSize",
+                                "value": "18sp"
+                            },
+                            {
+                                "name": "backgroundTint",
+                                "value": "@color/secondary"
+                            },
+                            {
+                                "name": "cornerRadius",
+                                "value": "12dp"
+                            },
+                            {
+                                "name": "icon",
+                                "value": "@drawable/ic_package"
+                            },
+                            {
+                                "name": "iconGravity",
+                                "value": "start"
+                            },
+                            {
+                                "name": "iconPadding",
+                                "value": "16dp"
+                            }
+                        ],
+                        "class_name": "com.google.android.material.button.MaterialButton",
+                        "content_desc": null,
+                        "index_path": "2.1",
+                        "page": "activity_main",
+                        "preferred_selector": {
+                            "strategy": "resource_id",
+                            "value": "@+id/btnPackages"
+                        },
+                        "resource_id": "@+id/btnPackages",
+                        "selectors": {
+                            "class_name": "com.google.android.material.button.MaterialButton",
+                            "index": "2.1",
+                            "resource_id": "@+id/btnPackages",
+                            "text": "@string/packages",
+                            "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/LinearLayout/com.google.android.material.button.MaterialButton[2]"
+                        },
+                        "tag": "com.google.android.material.button.MaterialButton",
+                        "text": "@string/packages",
+                        "xpath": "/androidx.constraintlayout.widget.ConstraintLayout/LinearLayout/com.google.android.material.button.MaterialButton[2]"
+                    }
+                ],
+                "page": "activity_main"
+            }
+        ]
+    }
+}
