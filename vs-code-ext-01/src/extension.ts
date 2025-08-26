@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { getOutputChannel } from './logger';
 import * as fs from 'fs';
 import { TestResultsParser } from './testResultsParser';
 import { OpenAIService } from './openaiService';
@@ -7,7 +8,8 @@ import { FailureDetailsWebviewProvider } from './webviewProvider';
 import { TestResults, Scenario, Step } from './types';
 
 export function activate(context: vscode.ExtensionContext) {
-    console.log('Test Failure Analyzer extension is now active!');
+    const outputChannel = getOutputChannel();
+    outputChannel.appendLine('Test Failure Analyzer extension is now active!');
 
     // Initialize services
     const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
@@ -40,13 +42,13 @@ export function activate(context: vscode.ExtensionContext) {
 
     // Load test results on activation
     const loadTestResults = async () => {
-        console.log('Loading test results...');
+    outputChannel.appendLine('Loading test results...');
         const testResults = await parser.parseTestResults();
         treeDataProvider.updateTestResults(testResults);
         updateContext(testResults);
         
         if (testResults && testResults.summary.failedScenarios > 0) {
-            console.log(`Found ${testResults.summary.failedScenarios} failed scenarios`);
+            outputChannel.appendLine(`Found ${testResults.summary.failedScenarios} failed scenarios`);
             vscode.window.showInformationMessage(
                 `Found ${testResults.summary.failedScenarios} failed scenarios with ${testResults.summary.failedSteps} failed steps.`,
                 'Analyze Failures'
@@ -56,7 +58,7 @@ export function activate(context: vscode.ExtensionContext) {
                 }
             });
         } else {
-            console.log('No test results found or no failures');
+            outputChannel.appendLine('No test results found or no failures');
         }
     };
 
@@ -260,5 +262,5 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 export function deactivate() {
-    console.log('Test Failure Analyzer extension is deactivated.');
+    getOutputChannel().appendLine('Test Failure Analyzer extension is deactivated.');
 }

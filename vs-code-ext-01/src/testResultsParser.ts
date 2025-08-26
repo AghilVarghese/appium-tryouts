@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { getOutputChannel } from './logger';
 import * as fs from 'fs';
 import * as path from 'path';
 import { TestResults, Scenario, Step, CucumberFeature, CucumberScenario, CucumberStep } from './types';
@@ -27,11 +28,13 @@ export class TestResultsParser {
             // Detect format and convert if needed
             if (Array.isArray(rawData) && rawData.length > 0 && rawData[0].keyword === 'Feature') {
                 // Cucumber/WebDriverIO format
-                console.log('Detected Cucumber/WebDriverIO format');
+                const outputChannel = getOutputChannel();
+                outputChannel.appendLine('Detected Cucumber/WebDriverIO format');
                 return this.convertCucumberToTestResults(rawData as CucumberFeature[]);
             } else if (rawData.executionInfo && rawData.scenarios) {
                 // Original format
-                console.log('Detected original format');
+                const outputChannel = getOutputChannel();
+                outputChannel.appendLine('Detected original format');
                 return rawData as TestResults;
             } else {
                 throw new Error('Unknown test results format');

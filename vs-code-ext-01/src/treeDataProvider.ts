@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { getOutputChannel } from './logger';
 import * as path from 'path';
 import { TestResults, Scenario, Step, FixSuggestion } from './types';
 
@@ -16,7 +17,8 @@ export class TestFailureTreeDataProvider implements vscode.TreeDataProvider<Tree
     }
 
     public updateTestResults(testResults: TestResults | null): void {
-        console.log('Updating test results in tree provider:', testResults?.summary);
+    const outputChannel = getOutputChannel();
+    outputChannel.appendLine('Updating test results in tree provider: ' + JSON.stringify(testResults?.summary));
         this.testResults = testResults;
         this.refresh();
     }
@@ -40,17 +42,20 @@ export class TestFailureTreeDataProvider implements vscode.TreeDataProvider<Tree
     }
 
     getChildren(element?: TreeItem): Thenable<TreeItem[]> {
-        console.log('getChildren called with element:', element?.label);
+    const outputChannel = getOutputChannel();
+    outputChannel.appendLine('getChildren called with element: ' + element?.label);
         
         if (!this.testResults) {
-            console.log('No test results available');
+            const outputChannel = getOutputChannel();
+            outputChannel.appendLine('No test results available');
             return Promise.resolve([]);
         }
 
         if (!element) {
             // Root level - show failed scenarios
             const failedScenarios = this.testResults.scenarios.filter(s => s.status === 'FAILED');
-            console.log('Found failed scenarios:', failedScenarios.length);
+            const outputChannel = getOutputChannel();
+            outputChannel.appendLine('Found failed scenarios: ' + failedScenarios.length);
             return Promise.resolve(failedScenarios.map(scenario => new ScenarioTreeItem(scenario)));
         }
 

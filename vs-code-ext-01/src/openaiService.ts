@@ -1,4 +1,7 @@
 import * as vscode from 'vscode';
+import { getOutputChannel } from './logger';
+
+const outputChannel = getOutputChannel();
 import OpenAI from 'openai';
 import axios from 'axios';
 import { Step, Scenario, FixSuggestion, CodeChange } from './types';
@@ -22,7 +25,7 @@ export class OpenAIService {
         if (true) {
             this.checkOllamaConnection();
         } else {
-            console.log('🤖 Initializing OpenAI service');
+            outputChannel.appendLine('🤖 Initializing OpenAI service');
             this.initializeOpenAI();
         }
     }
@@ -38,7 +41,7 @@ export class OpenAIService {
                     'Check Models'
                 );
             } else {
-                console.log(`✅ Ollama connected successfully with model: ${this.ollamaModel}`);
+                outputChannel.appendLine(`✅ Ollama connected successfully with model: ${this.ollamaModel}`);
                 vscode.window.showInformationMessage(`🦙 Ollama ready with ${this.ollamaModel}`, { modal: false });
             }
         } catch (error) {
@@ -69,7 +72,7 @@ export class OpenAIService {
             this.openai = new OpenAI({
                 apiKey: apiKey
             });
-            console.log('✅ OpenAI service initialized successfully');
+            outputChannel.appendLine('✅ OpenAI service initialized successfully');
             vscode.window.showInformationMessage('🤖 OpenAI service ready', { modal: false });
         } catch (error) {
             vscode.window.showErrorMessage(`Error initializing OpenAI: ${error}`);
@@ -115,6 +118,14 @@ export class OpenAIService {
 
             const prompt = this.buildPrompt(scenario, failedStep, xmlSnapshot);
 
+            // Log prompt and xmlSnapshot to the console
+            outputChannel.appendLine('[Test Failure Analyzer] LLM Prompt:');
+            outputChannel.appendLine(prompt);
+            if (xmlSnapshot) {
+                outputChannel.appendLine('[Test Failure Analyzer] XML Snapshot:');
+                outputChannel.appendLine(xmlSnapshot);
+            }
+
             const completion = await this.openai.chat.completions.create({
                 model: model,
                 messages: [
@@ -151,6 +162,14 @@ export class OpenAIService {
     ): Promise<FixSuggestion | null> {
         try {
             const prompt = this.buildPrompt(scenario, failedStep, xmlSnapshot);
+
+            // Log prompt and xmlSnapshot to the console
+            outputChannel.appendLine('[Test Failure Analyzer] LLM Prompt:');
+            outputChannel.appendLine(prompt);
+            if (xmlSnapshot) {
+                outputChannel.appendLine('[Test Failure Analyzer] XML Snapshot:');
+                outputChannel.appendLine(xmlSnapshot);
+            }
 
             const response = await axios.post(`${this.ollamaBaseUrl}/api/generate`, {
                 model: this.ollamaModel,

@@ -3,7 +3,7 @@
   "publisher": "aghilvarghese",
   "displayName": "Test Failure Analyzer",
   "description": "Analyzes test failures in JSON reports and suggests fixes using OpenAI integration",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "engines": {
     "vscode": "^1.102.0"
   },
