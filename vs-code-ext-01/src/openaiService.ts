@@ -84,18 +84,44 @@ export class OpenAIService {
         failedStep: Step,
         xmlSnapshot?: string
     ): Promise<FixSuggestion | null> {
-        // Show which AI service is being used
-        if (this.useOllama) {
-            vscode.window.showInformationMessage(`🦙 Using Ollama (${this.ollamaModel}) for AI analysis...`, { modal: false });
-        } else {
-            const config = vscode.workspace.getConfiguration('testFailureAnalyzer');
-            const model = config.get<string>('openaiModel', 'gpt-4o');
-            vscode.window.showInformationMessage(`🤖 Using OpenAI (${model}) for AI analysis...`, { modal: false });
-        }
+        const config = vscode.workspace.getConfiguration('testFailureAnalyzer');
+        const llmProvider = config.get<string>('llmProvider', 'openai');
+        let model = config.get<string>('openaiModel', 'gpt-4o');
 
-        if (this.useOllama) {
+        if (llmProvider === 'proxy') {
+            // Route to local proxy endpoint with correct llm value
+            const llm = this.useOllama ? 'ollama' : 'openai';
+            const prompt = this.useOllama
+                ? this.buildPrompt(scenario, failedStep, xmlSnapshot)
+                : this.buildPrompt(scenario, failedStep, xmlSnapshot);
+            try {
+                const response = await axios.post('http://localhost:5010/api/query', {
+                    query: prompt,
+                    llm
+                }, {
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                outputChannel.appendLine(`[Test Failure Analyzer] Prompt sent to proxy (llm: ${llm})`);
+                // Optionally parse and return response if proxy returns compatible result
+                if (response.data && typeof response.data.answer === 'string') {
+                    // Parse the AI answer using the same logic as OpenAI/Ollama
+                    return this.parseAIResponse(
+                        response.data.answer,
+                        scenario.name,
+                        `${scenario.name}_step_${failedStep.stepNumber}`
+                    );
+                }
+                return null;
+                return null;
+            } catch (err) {
+                outputChannel.appendLine(`[Test Failure Analyzer] Failed to send prompt to proxy: ${err}`);
+                return null;
+            }
+        } else if (llmProvider === 'ollama') {
+            vscode.window.showInformationMessage(`� Using Ollama (${this.ollamaModel}) for AI analysis...`, { modal: false });
             return this.generateFixSuggestionWithOllama(scenario, failedStep, xmlSnapshot);
         } else {
+            vscode.window.showInformationMessage(`🤖 Using OpenAI (${model}) for AI analysis...`, { modal: false });
             return this.generateFixSuggestionWithOpenAI(scenario, failedStep, xmlSnapshot);
         }
     }
@@ -457,157 +483,149 @@ await element.click();
 - Class name: \`await $('.android.widget.Button')\`
 - ID (Android): \`await $('#resource-id')\`
 
-**WebDriverIO Code Format Required:**
-\`\`\`javascript
-// Example: Wait for element and click
-const reserveButton = await $('~reserve_button');
-await reserveButton.waitForDisplayed({ timeout: 10000 });
-await reserveButton.click();
-\`\`\`
-
 Focus on finding the exact element that should be interacted with based on the step text and mobile app XML structure.
 `;
 
-            case 'not_clickable':
-                return baseRequest + `
-**Specific Analysis for Clickability Issues:**
-- Check if the element exists but is not clickable (covered by another element, disabled, etc.)
-- Analyze element properties like enabled, clickable, displayed from XML
-- Suggest solutions like scrolling, waiting for element to be clickable, or finding alternative click targets
-- Consider using WebDriverIO touch actions or coordinate-based clicking if standard click fails
-- Provide solutions using WebDriverIO/Appium syntax
+//             case 'not_clickable':
+//                 return baseRequest + `
+// **Specific Analysis for Clickability Issues:**
+// - Check if the element exists but is not clickable (covered by another element, disabled, etc.)
+// - Analyze element properties like enabled, clickable, displayed from XML
+// - Suggest solutions like scrolling, waiting for element to be clickable, or finding alternative click targets
+// - Consider using WebDriverIO touch actions or coordinate-based clicking if standard click fails
+// - Provide solutions using WebDriverIO/Appium syntax
 
-**WebDriverIO Code Format Required:**
-\`\`\`javascript
-// Example: Wait for element to be clickable and handle overlays
-const element = await $('~button-id');
-await element.waitForEnabled({ timeout: 10000 });
-await element.scrollIntoView();
-await element.click();
-\`\`\`
+// **WebDriverIO Code Format Required:**
+// \`\`\`javascript
+// // Example: Wait for element to be clickable and handle overlays
+// const element = await $('~button-id');
+// await element.waitForEnabled({ timeout: 10000 });
+// await element.scrollIntoView();
+// await element.click();
+// \`\`\`
 
-**Focus Areas:**
-- Element visibility and interactability
-- Overlapping elements or modal dialogs
-- Timing issues with dynamic content
-- Alternative interaction methods with WebDriverIO
-`;
+// **Focus Areas:**
+// - Element visibility and interactability
+// - Overlapping elements or modal dialogs
+// - Timing issues with dynamic content
+// - Alternative interaction methods with WebDriverIO
+// `;
 
-            case 'timeout':
-                return baseRequest + `
-**Specific Analysis for Timeout Issues:**
-- Identify what the test was waiting for when it timed out
-- Suggest appropriate wait strategies (explicit waits, condition-based waits)
-- Analyze if the timeout duration is appropriate
-- Look for loading indicators or async operations in the XML
+//             case 'timeout':
+//                 return baseRequest + `
+// **Specific Analysis for Timeout Issues:**
+// - Identify what the test was waiting for when it timed out
+// - Suggest appropriate wait strategies (explicit waits, condition-based waits)
+// - Analyze if the timeout duration is appropriate
+// - Look for loading indicators or async operations in the XML
 
-**Focus Areas:**
-- Appropriate wait conditions
-- Timeout duration adjustments
-- Loading states and progress indicators
-- Network delays and app performance
-`;
+// **Focus Areas:**
+// - Appropriate wait conditions
+// - Timeout duration adjustments
+// - Loading states and progress indicators
+// - Network delays and app performance
+// `;
 
-            case 'stale_element':
-                return baseRequest + `
-**Specific Analysis for Stale Element Issues:**
-- Understand why the element reference became stale
-- Suggest strategies to re-find elements after page changes
-- Recommend using fresh element lookups instead of storing references
-- Analyze the DOM structure changes that caused staleness
+//             case 'stale_element':
+//                 return baseRequest + `
+// **Specific Analysis for Stale Element Issues:**
+// - Understand why the element reference became stale
+// - Suggest strategies to re-find elements after page changes
+// - Recommend using fresh element lookups instead of storing references
+// - Analyze the DOM structure changes that caused staleness
 
-**Focus Areas:**
-- Element re-finding strategies
-- Avoiding stored element references
-- Understanding page state changes
-- Robust element interaction patterns
-`;
+// **Focus Areas:**
+// - Element re-finding strategies
+// - Avoiding stored element references
+// - Understanding page state changes
+// - Robust element interaction patterns
+// `;
 
-            case 'assertion_failure':
-                return baseRequest + `
-**Specific Analysis for Assertion Failures:**
-- Compare expected vs actual values from the error message
-- Analyze why the assertion failed (timing, incorrect expectation, app bug)
-- Suggest corrected assertions or wait strategies
-- Consider if the test expectation is valid
+//             case 'assertion_failure':
+//                 return baseRequest + `
+// **Specific Analysis for Assertion Failures:**
+// - Compare expected vs actual values from the error message
+// - Analyze why the assertion failed (timing, incorrect expectation, app bug)
+// - Suggest corrected assertions or wait strategies
+// - Consider if the test expectation is valid
 
-**Focus Areas:**
-- Expected vs actual value analysis
-- Assertion timing and conditions
-- Test data validation
-- App behavior verification
-`;
+// **Focus Areas:**
+// - Expected vs actual value analysis
+// - Assertion timing and conditions
+// - Test data validation
+// - App behavior verification
+// `;
 
-            case 'permission_error':
-                return baseRequest + `
-**Specific Analysis for Permission/Access Issues:**
-- Identify what permissions or access rights are missing
-- Suggest configuration changes or test setup improvements
-- Analyze if this is an environment-specific issue
-- Consider alternative approaches that don't require elevated permissions
+//             case 'permission_error':
+//                 return baseRequest + `
+// **Specific Analysis for Permission/Access Issues:**
+// - Identify what permissions or access rights are missing
+// - Suggest configuration changes or test setup improvements
+// - Analyze if this is an environment-specific issue
+// - Consider alternative approaches that don't require elevated permissions
 
-**Focus Areas:**
-- Required permissions and capabilities
-- Test environment configuration
-- Alternative testing approaches
-- Security context considerations
-`;
+// **Focus Areas:**
+// - Required permissions and capabilities
+// - Test environment configuration
+// - Alternative testing approaches
+// - Security context considerations
+// `;
 
-            case 'network_error':
-                return baseRequest + `
-**Specific Analysis for Network Issues:**
-- Identify the network operation that failed
-- Suggest retry mechanisms or network configuration
-- Analyze if this is environment-specific or a test design issue
-- Consider mocking or stubbing network calls for stability
+//             case 'network_error':
+//                 return baseRequest + `
+// **Specific Analysis for Network Issues:**
+// - Identify the network operation that failed
+// - Suggest retry mechanisms or network configuration
+// - Analyze if this is environment-specific or a test design issue
+// - Consider mocking or stubbing network calls for stability
 
-**Focus Areas:**
-- Network connectivity and configuration
-- Retry and fallback strategies
-- Test environment network setup
-- API mocking and testing approaches
-`;
+// **Focus Areas:**
+// - Network connectivity and configuration
+// - Retry and fallback strategies
+// - Test environment network setup
+// - API mocking and testing approaches
+// `;
 
-            case 'text_input_issue':
-                return baseRequest + `
-**Specific Analysis for Text Input Issues:**
-- Examine if the element accepts text input (input field, text area, etc.)
-- Check element properties and state from XML page source
-- Suggest proper WebDriverIO text input methods
-- Consider clearing field before input, handling keyboard visibility, etc.
-- Provide solutions using WebDriverIO/Appium syntax for mobile apps
+//             case 'text_input_issue':
+//                 return baseRequest + `
+// **Specific Analysis for Text Input Issues:**
+// - Examine if the element accepts text input (input field, text area, etc.)
+// - Check element properties and state from XML page source
+// - Suggest proper WebDriverIO text input methods
+// - Consider clearing field before input, handling keyboard visibility, etc.
+// - Provide solutions using WebDriverIO/Appium syntax for mobile apps
 
-**WebDriverIO Code Format Required:**
-\`\`\`javascript
-// Example: Clear and type text in input field
-const inputField = await $('//XCUIElementTypeTextField[@name="username"]');
-await inputField.waitForDisplayed({ timeout: 10000 });
-await inputField.clearValue();
-await inputField.setValue('new text');
-\`\`\`
+// **WebDriverIO Code Format Required:**
+// \`\`\`javascript
+// // Example: Clear and type text in input field
+// const inputField = await $('//XCUIElementTypeTextField[@name="username"]');
+// await inputField.waitForDisplayed({ timeout: 10000 });
+// await inputField.clearValue();
+// await inputField.setValue('new text');
+// \`\`\`
 
-**Focus Areas:**
-- Proper element identification for text input
-- Clearing existing text before new input
-- Keyboard handling on mobile devices
-- Input validation and feedback
-- WebDriverIO text input methods
-`;
+// **Focus Areas:**
+// - Proper element identification for text input
+// - Clearing existing text before new input
+// - Keyboard handling on mobile devices
+// - Input validation and feedback
+// - WebDriverIO text input methods
+// `;
 
-            default:
-                return baseRequest + `
-**General Error Analysis:**
-- Analyze the specific error message and stack trace
-- Identify patterns or known causes for this type of error
-- Suggest debugging approaches to understand the root cause
-- Provide general best practices for robust test automation
+//             default:
+//                 return baseRequest + `
+// **General Error Analysis:**
+// - Analyze the specific error message and stack trace
+// - Identify patterns or known causes for this type of error
+// - Suggest debugging approaches to understand the root cause
+// - Provide general best practices for robust test automation
 
-**Focus Areas:**
-- Error message interpretation
-- Debugging strategies
-- Test stability improvements
-- Best practice recommendations
-`;
+// **Focus Areas:**
+// - Error message interpretation
+// - Debugging strategies
+// - Test stability improvements
+// - Best practice recommendations
+// `;
         }
     }
 

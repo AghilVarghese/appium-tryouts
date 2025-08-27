@@ -116,6 +116,13 @@
           "description": "Ollama model to use for suggestions",
           "scope": "resource"
         },
+        "testFailureAnalyzer.llmProvider": {
+          "type": "string",
+          "enum": ["openai", "ollama", "proxy"],
+          "default": "openai",
+          "description": "Choose which LLM provider to use: OpenAI, Ollama, or a local proxy endpoint.",
+          "scope": "resource"
+        },
         "testFailureAnalyzer.openaiApiKey": {
           "type": "string",
           "default": "",
