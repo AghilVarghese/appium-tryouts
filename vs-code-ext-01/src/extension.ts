@@ -7,8 +7,24 @@ import { TestFailureTreeDataProvider, StepTreeItem } from './treeDataProvider';
 import { FailureDetailsWebviewProvider } from './webviewProvider';
 import { TestResults, Scenario, Step, CodeChange, FixSuggestion } from './types';
 import { SuggestionCodeLensProvider } from './codeLensProvider';
+import { SuggestionInlineDiffManager } from './suggestionInlineDiffManager';
 
 export function activate(context: vscode.ExtensionContext) {
+    // Show inline diff when 'Show Diff' CodeLens is clicked
+    const showCodeDiffCommand = vscode.commands.registerCommand('test-failure-analyzer.showCodeDiff',
+        async (uri: vscode.Uri, codeChange: CodeChange, suggestion: FixSuggestion) => {
+            // Open the file and show the diff decoration
+            try {
+                const doc = await vscode.workspace.openTextDocument(uri);
+                await vscode.window.showTextDocument(doc, { preview: false });
+                inlineDiffManager.showDiffForChange(codeChange);
+            } catch (err) {
+                vscode.window.showErrorMessage(`Could not show code diff: ${err}`);
+            }
+        }
+    );
+    // Inline diff manager for Copilot-style decorations
+    const inlineDiffManager = new SuggestionInlineDiffManager();
     const outputChannel = getOutputChannel();
     outputChannel.appendLine('Test Failure Analyzer extension is now active!');
 
@@ -161,7 +177,7 @@ export function activate(context: vscode.ExtensionContext) {
                 return;
             }
             const change = suggestion.codeChanges[0];
-            const fileUri = vscode.Uri.file(`${workspaceRoot}/${change.filePath}`);
+            const fileUri = vscode.Uri.file(`${change.filePath}`);
             try {
                 const doc = await vscode.workspace.openTextDocument(fileUri);
                 const editor = await vscode.window.showTextDocument(doc, { preview: false });
@@ -170,8 +186,12 @@ export function activate(context: vscode.ExtensionContext) {
                     editor.revealRange(new vscode.Range(pos, pos), vscode.TextEditorRevealType.InCenter);
                 }
                 // Register CodeLens provider for this document
-                const disposable = vscode.languages.registerCodeLensProvider({ pattern: fileUri.fsPath }, new SuggestionCodeLensProvider(suggestion, change));
-                context.subscriptions.push(disposable);
+                const codeLensDisposable = vscode.languages.registerCodeLensProvider({ pattern: fileUri.fsPath }, new SuggestionCodeLensProvider(suggestion, change));
+                context.subscriptions.push(codeLensDisposable);
+                // Store disposable for later removal
+                (globalThis as any)._lastCodeLensDisposable = codeLensDisposable;
+                // Show Copilot-style inline diff
+                inlineDiffManager.showDiffForChange(change);
                 vscode.window.showInformationMessage('Use the Accept/Decline CodeLens above the changed line.');
             } catch (err) {
                 vscode.window.showErrorMessage(`Could not open file for suggestion: ${err}`);
@@ -192,11 +212,25 @@ export function activate(context: vscode.ExtensionContext) {
                 await doc.save();
                 vscode.window.showInformationMessage('Suggestion applied!');
             }
+            // Dispose CodeLens after action
+            if ((globalThis as any)._lastCodeLensDisposable) {
+                (globalThis as any)._lastCodeLensDisposable.dispose();
+                (globalThis as any)._lastCodeLensDisposable = undefined;
+            }
+            // Clear inline diff
+            inlineDiffManager.clear();
         }
     );
     const declineCodeChangeCommand = vscode.commands.registerCommand('test-failure-analyzer.declineCodeChange',
         async (uri: vscode.Uri, codeChange: CodeChange, suggestion: FixSuggestion) => {
             vscode.window.showInformationMessage('Suggestion declined. No changes made.');
+            // Dispose CodeLens after action
+            if ((globalThis as any)._lastCodeLensDisposable) {
+                (globalThis as any)._lastCodeLensDisposable.dispose();
+                (globalThis as any)._lastCodeLensDisposable = undefined;
+            }
+            // Clear inline diff
+            inlineDiffManager.clear();
         }
     );
 
@@ -233,9 +267,10 @@ export function activate(context: vscode.ExtensionContext) {
         refreshFailuresCommand,
         viewFailureDetailsCommand,
         getSuggestionCommand,
-    applySuggestionCommand,
-    acceptCodeChangeCommand,
-    declineCodeChangeCommand,
+        applySuggestionCommand,
+        acceptCodeChangeCommand,
+        declineCodeChangeCommand,
+        showCodeDiffCommand,
         rejectSuggestionCommand,
         openScreenshotCommand,
         openXmlSnapshotCommand,

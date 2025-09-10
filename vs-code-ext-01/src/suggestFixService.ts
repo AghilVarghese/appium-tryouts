@@ -27,7 +27,7 @@ export class SuggestFixService {
             if (response.data) {
                 // Adapt to new response format
                 return this.parseSuggestFixResponse({
-                    'File': response.data.file,
+                    'File': response.data.file_path,
                     'Line Number': response.data.lineNumber,
                     'New Code': response.data.newCode,
                     'Old Code': response.data.oldCode,
