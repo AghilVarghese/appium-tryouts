@@ -258,26 +258,23 @@ export class FailureDetailsWebviewProvider {
                 ` : ''}
 
                 <div class="section">
-                    <h3>AI Suggestion</h3>
+                    <h3>Suggest Fix</h3>
                     ${suggestion ? `
                         <div class="suggestion">
-                            <h4>Suggested Fix <span class="confidence ${suggestion.confidence >= 8 ? 'high' : suggestion.confidence >= 6 ? 'medium' : 'low'}">Confidence: ${suggestion.confidence}/10</span></h4>
-                            <p>${suggestion.suggestion.replace(/\\n/g, '<br>')}</p>
-                            ${suggestion.reasoning ? `
-                                <h4>Reasoning</h4>
-                                <p>${suggestion.reasoning.replace(/\\n/g, '<br>')}</p>
-                            ` : ''}
+                            <h4>Reason</h4>
+                            <p>${suggestion.reasoning ? suggestion.reasoning.replace(/\\n/g, '<br>') : ''}</p>
+                            <h4>Suggested Code Change</h4>
+                            <p>${suggestion.suggestion ? suggestion.suggestion.replace(/\\n/g, '<br>') : ''}</p>
                             ${suggestion.codeChanges && suggestion.codeChanges.length > 0 ? `
-                                <h4>Working Selectors from XML Analysis</h4>
+                                <h4>Code Change Details</h4>
                                 ${suggestion.codeChanges.map(change => `
                                     <div style="margin: 15px 0; border: 1px solid var(--vscode-charts-green); border-radius: 4px; padding: 15px; background-color: var(--vscode-inputValidation-infoBackground);">
-                                        <div style="margin-bottom: 10px;">
-                                            <strong style="color: var(--vscode-charts-green);">✅ ${change.description}</strong>
-                                        </div>
-                                        <pre class="code" style="background-color: var(--vscode-editor-background); border: 1px solid var(--vscode-charts-green);">${change.suggestedCode}</pre>
-                                        <div style="margin-top: 8px; font-size: 12px; color: var(--vscode-descriptionForeground);">
-                                            Found in XML page source - Ready to use
-                                        </div>
+                                        <div><strong>File:</strong> ${change.filePath || ''}</div>
+                                        <div><strong>Line Number:</strong> ${change.lineNumbers ? change.lineNumbers.start : ''}</div>
+                                        <div style="margin-top: 10px;"><strong>Old Code:</strong></div>
+                                        <pre class="code">${change.originalCode || ''}</pre>
+                                        <div style="margin-top: 10px;"><strong>New Code:</strong></div>
+                                        <pre class="code">${change.suggestedCode || ''}</pre>
                                     </div>
                                 `).join('')}
                             ` : ''}
@@ -287,8 +284,8 @@ export class FailureDetailsWebviewProvider {
                             </div>
                         </div>
                     ` : `
-                        <p>No AI suggestion available yet.</p>
-                        <button class="button" onclick="getSuggestion('${stepId}')">Get AI Suggestion</button>
+                        <p>No suggestion available yet.</p>
+                        <button class="button" onclick="getSuggestion('${stepId}')">Get Suggestion</button>
                     `}
                 </div>
             </div>

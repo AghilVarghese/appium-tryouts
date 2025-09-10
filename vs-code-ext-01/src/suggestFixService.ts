@@ -1,0 +1,55 @@
+
+import axios from 'axios';
+import * as vscode from 'vscode';
+import { Scenario, Step, FixSuggestion, CodeChange } from './types';
+import * as fs from 'fs';
+import FormData from 'form-data';
+
+export class SuggestFixService {
+    public async getFixSuggestion(
+        stepText: string,
+        error: string,
+        xmlSnapshotPath: string,
+        llmType: string = 'openai'
+    ): Promise<FixSuggestion | null> {
+        try {
+            const formData = new FormData();
+            formData.append('step', stepText);
+            formData.append('error', error);
+            formData.append('xml_snapshot', fs.createReadStream(xmlSnapshotPath));
+            formData.append('llm_type', llmType);
+
+            const response = await axios.post('http://localhost:5010/api/v2/suggest-fix', formData, {
+                headers: formData.getHeaders(),
+            });
+
+            if (response.data) {
+                // Parse the response into FixSuggestion
+                return this.parseSuggestFixResponse(response.data);
+            }
+            return null;
+        } catch (err) {
+            vscode.window.showErrorMessage(`SuggestFixService error: ${err}`);
+            return null;
+        }
+    }
+
+    private parseSuggestFixResponse(data: any): FixSuggestion {
+        // Map the response fields to FixSuggestion
+        const codeChange: CodeChange = {
+            filePath: data['File'] || '',
+            description: data['Suggested code change'] || '',
+            originalCode: data['Old Code'] || '',
+            suggestedCode: data['New Code'] || '',
+            lineNumbers: data['Line Number'] ? { start: Number(data['Line Number']), end: Number(data['Line Number']) } : undefined
+        };
+        return {
+            stepId: '', // To be set by caller
+            scenarioName: '', // To be set by caller
+            suggestion: data['Suggested code change'] || '',
+            reasoning: data['Reason'] || '',
+            confidence: 8, // Default or parse if available
+            codeChanges: [codeChange]
+        };
+    }
+}

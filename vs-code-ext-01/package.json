@@ -118,7 +118,11 @@
         },
         "testFailureAnalyzer.llmProvider": {
           "type": "string",
-          "enum": ["openai", "ollama", "proxy"],
+          "enum": [
+            "openai",
+            "ollama",
+            "proxy"
+          ],
           "default": "openai",
           "description": "Choose which LLM provider to use: OpenAI, Ollama, or a local proxy endpoint.",
           "scope": "resource"
@@ -133,7 +137,12 @@
           "type": "string",
           "default": "gpt-4o",
           "description": "OpenAI model to use for suggestions (used when useOllama is false)",
-          "enum": ["gpt-3.5-turbo", "gpt-4", "gpt-4-turbo", "gpt-4o"],
+          "enum": [
+            "gpt-3.5-turbo",
+            "gpt-4",
+            "gpt-4-turbo",
+            "gpt-4o"
+          ],
           "scope": "resource"
         },
         "testFailureAnalyzer.testResultsPath": {
@@ -160,20 +169,21 @@
     "test": "vscode-test"
   },
   "dependencies": {
-    "openai": "^4.52.7",
-    "axios": "^1.6.7"
+    "axios": "^1.6.7",
+    "form-data": "^4.0.4",
+    "openai": "^4.52.7"
   },
   "devDependencies": {
-    "@types/vscode": "^1.102.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
+    "@types/vscode": "^1.102.0",
     "@typescript-eslint/eslint-plugin": "^8.31.1",
     "@typescript-eslint/parser": "^8.31.1",
-    "eslint": "^9.25.1",
-    "esbuild": "^0.25.3",
-    "npm-run-all": "^4.1.5",
-    "typescript": "^5.8.3",
     "@vscode/test-cli": "^0.0.11",
-    "@vscode/test-electron": "^2.5.2"
+    "@vscode/test-electron": "^2.5.2",
+    "esbuild": "^0.25.3",
+    "eslint": "^9.25.1",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.8.3"
   }
 }

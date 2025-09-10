@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { getOutputChannel } from './logger';
 import * as fs from 'fs';
 import { TestResultsParser } from './testResultsParser';
-import { OpenAIService } from './openaiService';
+import { SuggestFixService } from './suggestFixService';
 import { TestFailureTreeDataProvider, StepTreeItem } from './treeDataProvider';
 import { FailureDetailsWebviewProvider } from './webviewProvider';
 import { TestResults, Scenario, Step } from './types';
@@ -19,7 +19,7 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     const parser = new TestResultsParser(workspaceRoot);
-    const openaiService = new OpenAIService();
+    const suggestFixService = new SuggestFixService();
     const treeDataProvider = new TestFailureTreeDataProvider();
 
     // Register tree data provider
@@ -93,9 +93,7 @@ export function activate(context: vscode.ExtensionContext) {
             if (typeof item === 'string') {
                 // Called from webview with stepId
                 stepId = item;
-                // Find the step item - this is a simplified approach
-                // In a real implementation, you might want to store step items differently
-                vscode.window.showInformationMessage('Getting AI suggestion...');
+                vscode.window.showInformationMessage('Getting suggestion...');
                 return;
             } else {
                 stepItem = item;
@@ -105,36 +103,34 @@ export function activate(context: vscode.ExtensionContext) {
             try {
                 vscode.window.withProgress({
                     location: vscode.ProgressLocation.Notification,
-                    title: "Getting AI suggestion...",
+                    title: "Getting suggestion...",
                     cancellable: false
                 }, async (progress) => {
                     progress.report({ increment: 0, message: "Analyzing failure..." });
 
-                    // Read XML snapshot if available
-                    let xmlSnapshot: string | undefined;
+                    // Read XML snapshot path if available
+                    let xmlSnapshotPath: string | undefined;
                     if (stepItem.step.artifacts?.xmlSnapshot) {
-                        try {
-                            const xmlContent = await parser.readXmlSnapshot(stepItem.step.artifacts.xmlSnapshot);
-                            xmlSnapshot = xmlContent || undefined;
-                        } catch (error) {
-                            console.error('Error reading XML snapshot:', error);
-                        }
+                        xmlSnapshotPath = stepItem.step.artifacts.xmlSnapshot;
                     }
 
                     progress.report({ increment: 30, message: "Generating suggestion..." });
 
-                    const suggestion = await openaiService.generateFixSuggestion(
-                        stepItem.scenario,
-                        stepItem.step,
-                        xmlSnapshot
+                    const suggestion = await suggestFixService.getFixSuggestion(
+                        stepItem.step.text,
+                        stepItem.step.error?.message || '',
+                        xmlSnapshotPath || '',
+                        'openai'
                     );
 
                     progress.report({ increment: 100, message: "Done!" });
 
                     if (suggestion) {
+                        suggestion.stepId = stepId;
+                        suggestion.scenarioName = stepItem.scenario.name;
                         treeDataProvider.addSuggestion(stepId, suggestion);
                         vscode.window.showInformationMessage(
-                            `AI suggestion generated with ${suggestion.confidence}/10 confidence.`,
+                            `Suggestion generated.`,
                             'View Details'
                         ).then(selection => {
                             if (selection === 'View Details') {
@@ -147,7 +143,7 @@ export function activate(context: vscode.ExtensionContext) {
                             }
                         });
                     } else {
-                        vscode.window.showErrorMessage('Failed to generate AI suggestion. Please check your OpenAI configuration.');
+                        vscode.window.showErrorMessage('Failed to generate suggestion.');
                     }
                 });
             } catch (error) {
@@ -252,7 +248,7 @@ export function activate(context: vscode.ExtensionContext) {
     // Configuration change handler
     const configurationChangeHandler = vscode.workspace.onDidChangeConfiguration(event => {
         if (event.affectsConfiguration('testFailureAnalyzer.openaiApiKey')) {
-            openaiService.refreshApiKey();
+            // openaiService.refreshApiKey();
         }
     });
     context.subscriptions.push(configurationChangeHandler);
