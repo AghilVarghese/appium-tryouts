@@ -4,6 +4,7 @@ from .in_memory_chrome_db import InMemoryChromaDB
 from .llm_selector import get_llm
 from .prompt_util import analyze_error_scenario, analyze_error_scenario_check_if_elem_exists_first
 import logging
+from langchain_core.messages import HumanMessage, AIMessage
 
 from .xml_parser_android import summarize_android_xml
 
@@ -33,12 +34,24 @@ def suggest_fix_service(failed_step, error_message, xml_content, llm_type=None, 
     llm_type = llm_type or os.getenv("LLMTYPE", "ollama")
     logger.info(f"Using LLM type: {llm_type}")
     llm = get_llm(llm_type)
-    answer = llm(prompt)
-    logger.info(f"LLM answer: {answer}")
+    if llm_type == "openai":
+        answer = llm([HumanMessage(content=prompt)])
+        logger.info(f"LLM answer: {answer}")
+    else:
+        answer = llm(prompt)
+        logger.info(f"LLM answer: {answer}")
 
     parsed = None
-    if isinstance(answer, str):
+    if isinstance(answer, AIMessage):
+        msg_content = answer.content
+        if msg_content.strip().startswith("```json"):
+            msg_content = msg_content.strip().lstrip("```json").rstrip("```").strip()
+        parsed = json.loads(msg_content)
+    elif isinstance(answer, str):
         try:
+            # Remove markdown code block if present
+            if answer.strip().startswith("```json"):
+                answer = answer.strip().lstrip("```json").rstrip("```").strip()
             parsed = json.loads(answer)
         except Exception as e:
             logger.error(f"Failed to parse LLM answer as JSON: {e}")

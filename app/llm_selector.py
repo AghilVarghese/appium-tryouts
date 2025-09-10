@@ -6,6 +6,8 @@ _OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
 def get_llm(llm_type="ollama"):
     if llm_type == "openai":
+        # from langchain.llms import OpenAI
+        # return OpenAI(temperature=0, openai_api_key=_OPENAI_API_KEY)
         return ChatOpenAI(
             temperature=0,
             api_key=_OPENAI_API_KEY,
