@@ -17,15 +17,23 @@ export class SuggestFixService {
             formData.append('step', stepText);
             formData.append('error', error);
             formData.append('xml_snapshot', fs.createReadStream(xmlSnapshotPath));
-            formData.append('llm_type', llmType);
+            const llmProvider = vscode.workspace.getConfiguration('testFailureAnalyzer').get<string>('llmProvider') || llmType;
+            formData.append('llm_type', llmProvider);
 
             const response = await axios.post('http://localhost:5010/api/v2/suggest-fix', formData, {
                 headers: formData.getHeaders(),
             });
 
             if (response.data) {
-                // Parse the response into FixSuggestion
-                return this.parseSuggestFixResponse(response.data);
+                // Adapt to new response format
+                return this.parseSuggestFixResponse({
+                    'File': response.data.file,
+                    'Line Number': response.data.lineNumber,
+                    'New Code': response.data.newCode,
+                    'Old Code': response.data.oldCode,
+                    'Reason': response.data.reason,
+                    'Suggested code change': response.data.suggestedCodeChange
+                });
             }
             return null;
         } catch (err) {

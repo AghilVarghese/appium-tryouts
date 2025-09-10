@@ -5,7 +5,8 @@ import { TestResultsParser } from './testResultsParser';
 import { SuggestFixService } from './suggestFixService';
 import { TestFailureTreeDataProvider, StepTreeItem } from './treeDataProvider';
 import { FailureDetailsWebviewProvider } from './webviewProvider';
-import { TestResults, Scenario, Step } from './types';
+import { TestResults, Scenario, Step, CodeChange, FixSuggestion } from './types';
+import { SuggestionCodeLensProvider } from './codeLensProvider';
 
 export function activate(context: vscode.ExtensionContext) {
     const outputChannel = getOutputChannel();
@@ -155,40 +156,47 @@ export function activate(context: vscode.ExtensionContext) {
     const applySuggestionCommand = vscode.commands.registerCommand('test-failure-analyzer.applySuggestion', 
         async (stepId: string) => {
             const suggestion = treeDataProvider.getSuggestion(stepId);
-            if (!suggestion) {
-                vscode.window.showErrorMessage('No suggestion found for this step.');
+            if (!suggestion || !suggestion.codeChanges || suggestion.codeChanges.length === 0) {
+                vscode.window.showErrorMessage('No suggestion or code change found for this step.');
                 return;
             }
-
-            const action = await vscode.window.showInformationMessage(
-                `Apply the AI suggestion for "${suggestion.scenarioName}"?`,
-                { modal: true },
-                'Apply',
-                'Cancel'
-            );
-
-            if (action === 'Apply') {
-                // Here you would implement the logic to apply the suggestion
-                // This could involve modifying test files, updating selectors, etc.
-                // For now, we'll show the suggestion details
-                
-                if (suggestion.codeChanges && suggestion.codeChanges.length > 0) {
-                    // Create a new document with the suggested code
-                    const doc = await vscode.workspace.openTextDocument({
-                        content: suggestion.codeChanges.map(change => 
-                            `// ${change.description}\n${change.suggestedCode}\n\n`
-                        ).join(''),
-                        language: 'javascript'
-                    });
-                    
-                    await vscode.window.showTextDocument(doc);
-                    vscode.window.showInformationMessage('Suggestion code opened in new document. Review and apply manually.');
-                } else {
-                    vscode.window.showInformationMessage('No specific code changes provided. Please review the suggestion manually.');
+            const change = suggestion.codeChanges[0];
+            const fileUri = vscode.Uri.file(`${workspaceRoot}/${change.filePath}`);
+            try {
+                const doc = await vscode.workspace.openTextDocument(fileUri);
+                const editor = await vscode.window.showTextDocument(doc, { preview: false });
+                if (change.lineNumbers) {
+                    const pos = new vscode.Position(change.lineNumbers.start - 1, 0);
+                    editor.revealRange(new vscode.Range(pos, pos), vscode.TextEditorRevealType.InCenter);
                 }
-
-                treeDataProvider.removeSuggestion(stepId);
+                // Register CodeLens provider for this document
+                const disposable = vscode.languages.registerCodeLensProvider({ pattern: fileUri.fsPath }, new SuggestionCodeLensProvider(suggestion, change));
+                context.subscriptions.push(disposable);
+                vscode.window.showInformationMessage('Use the Accept/Decline CodeLens above the changed line.');
+            } catch (err) {
+                vscode.window.showErrorMessage(`Could not open file for suggestion: ${err}`);
             }
+        }
+    );
+
+    // Accept/Decline CodeLens commands
+    const acceptCodeChangeCommand = vscode.commands.registerCommand('test-failure-analyzer.acceptCodeChange',
+        async (uri: vscode.Uri, codeChange: CodeChange, suggestion: FixSuggestion) => {
+            const doc = await vscode.workspace.openTextDocument(uri);
+            const edit = new vscode.WorkspaceEdit();
+            if (codeChange.lineNumbers) {
+                const start = new vscode.Position(codeChange.lineNumbers.start - 1, 0);
+                const end = new vscode.Position(codeChange.lineNumbers.end - 1, doc.lineAt(codeChange.lineNumbers.end - 1).text.length);
+                edit.replace(uri, new vscode.Range(start, end), codeChange.suggestedCode);
+                await vscode.workspace.applyEdit(edit);
+                await doc.save();
+                vscode.window.showInformationMessage('Suggestion applied!');
+            }
+        }
+    );
+    const declineCodeChangeCommand = vscode.commands.registerCommand('test-failure-analyzer.declineCodeChange',
+        async (uri: vscode.Uri, codeChange: CodeChange, suggestion: FixSuggestion) => {
+            vscode.window.showInformationMessage('Suggestion declined. No changes made.');
         }
     );
 
@@ -225,7 +233,9 @@ export function activate(context: vscode.ExtensionContext) {
         refreshFailuresCommand,
         viewFailureDetailsCommand,
         getSuggestionCommand,
-        applySuggestionCommand,
+    applySuggestionCommand,
+    acceptCodeChangeCommand,
+    declineCodeChangeCommand,
         rejectSuggestionCommand,
         openScreenshotCommand,
         openXmlSnapshotCommand,
