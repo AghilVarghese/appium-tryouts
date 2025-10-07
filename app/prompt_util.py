@@ -46,6 +46,7 @@ Return your answer in the following JSON format:
   "oldCode": "<Old code snippet>",
   "newCode": "<New code snippet>",
   "file": "<File to do the change>",
+  "file_path": "<Full path to do the change>",
   "lineNumber": <Line number to do the change>
 }}
 

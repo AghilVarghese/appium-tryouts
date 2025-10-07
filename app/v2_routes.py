@@ -33,7 +33,9 @@ def api_suggest_fix():
     temperature = float(request.form.get('temperature', 0.7))
     xml_snapshot = xml_file.read().decode('utf-8') if xml_file else ''
     result = suggest_fix_service(step, error, xml_snapshot, llm_type, k=k, temperature=temperature)
+    print(jsonify(result))
     return jsonify(result)
+    # return {'reason': 'Incorrect resource ID used in selector', 'suggestedCodeChange': 'await this.driver.$(\'android=new UiSelector().resourceId("com.travelbooking.app:id/etTo")\');', 'oldCode': 'const toField = await this.driver.$(\'android=new UiSelector().resourceId("com.travelbooking.app:id/etToLocation")\');', 'newCode': 'const toField = await this.driver.$(\'android=new UiSelector().resourceId("com.travelbooking.app:id/etTo")\');', 'file': 'FlightsPage.js', 'file_path': '/Users/LE1846/TestAutomation/v2/android_app_3/appium-cucumber-tests/src/pageobjects/FlightsPage.js', 'lineNumber': 13}
 
 
 @v2_app.route('/api/v2/list-test-steps', methods=['GET'])

@@ -102,6 +102,7 @@ def scan_pom_files(pom_folder):
                     ]
                     content_json = json.dumps({
                         'file': os.path.basename(js_file),
+                        'file_path': js_file,
                         'function': func_name,
                         'code': ''.join(func_lines_with_numbers).strip()
                     }, ensure_ascii=False)
@@ -109,6 +110,7 @@ def scan_pom_files(pom_folder):
                         page_content=content_json,
                         metadata={
                             'file': os.path.basename(js_file),
+                            'file_path': js_file,
                             'relative_path': os.path.relpath(js_file, pom_folder),
                             'start_line': func_start_line + 1,
                             'function': func_name
@@ -135,6 +137,7 @@ def scan_pom_files(pom_folder):
                     ]
                     content_json = json.dumps({
                         'file': os.path.basename(js_file),
+                        'file_path': js_file,
                         'function': func_name,
                         'code': ''.join(func_lines_with_numbers).strip()
                     }, ensure_ascii=False)
@@ -143,6 +146,7 @@ def scan_pom_files(pom_folder):
                         metadata={
                             'file': os.path.basename(js_file),
                             'relative_path': os.path.relpath(js_file, pom_folder),
+                            'file_path': js_file,
                             'start_line': func_start_line + 1,
                             'function': func_name
                         }
@@ -159,17 +163,19 @@ def scan_pom_files(pom_folder):
             ]
             content_json = json.dumps({
                 'file': os.path.basename(js_file),
+                'file_path': js_file,
                 'function': func_name,
                 'code': ''.join(func_lines_with_numbers).strip()
             }, ensure_ascii=False)
             doc = Document(
                 page_content=content_json,
-                metadata={
-                    'file': os.path.basename(js_file),
-                    'relative_path': os.path.relpath(js_file, pom_folder),
-                    'start_line': func_start_line + 1,
-                    'function': func_name
-                }
+                    metadata={
+                        'file': os.path.basename(js_file),
+                        'file_path': js_file,
+                        'relative_path': os.path.relpath(js_file, pom_folder),
+                        'start_line': func_start_line + 1,
+                        'function': func_name
+                    }
             )
             docs.append(doc)
     if not docs:

@@ -68,6 +68,7 @@ def suggest_fix_service(failed_step, error_message, xml_content, llm_type=None, 
         "oldCode": parsed.get("oldCode", failed_code),
         "newCode": parsed.get("newCode", ""),
         "file": parsed.get("file", ""),
+        "file_path": parsed.get("file_path", ""),
         "lineNumber": parsed.get("lineNumber", 0)
     }
     logger.info(f"Final response: {response}")
